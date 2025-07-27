@@ -13,7 +13,7 @@ const Home = () => {
       initial={{ y:0, scale:2.5 }}
       animate={{ y:-yoffset, scale:1}}
       transition={{ delay:1, duration: 1.5, ease:easeInOut}}
-      className='font-[Sans] text-6xl font-semibold'>
+      className='font-[Sans] text-[3vw] font-semibold'>
         My India Ventures
       </motion.h1>
     </div>
