@@ -1,5 +1,6 @@
 import React from 'react'
 import { easeInOut, motion } from 'framer-motion'
+import bg01 from '../../assets/bg/bg01.png'
 
 const Home = () => {
 
@@ -13,9 +14,16 @@ const Home = () => {
       initial={{ y:0, scale:2.5 }}
       animate={{ y:-yoffset, scale:1}}
       transition={{ delay:1, duration: 1.5, ease:easeInOut}}
-      className='text-[3vw] font-semibold'>
+      className='text-[3vw] font-semibold absolute z-20'>
         MY INDIA VENTURES
       </motion.h1>
+      <motion.img 
+      initial={{ filter: "blur(10px)" }}
+      animate={{ filter: "blur(0px)"}}
+      transition={{ duration: 2, ease: "easeinout"}}
+      className='w-[80vw] h-[50vh] rounded-3xl absolute z-10 '
+      src={bg01} 
+      alt={bg01} />
     </div>
   )
 }
