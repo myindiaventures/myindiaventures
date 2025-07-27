@@ -19,7 +19,7 @@ const ComingSoon = () => {
                 </div>
             )}
             <div
-            className='w-full h-screen flex flex-col justify-center items-center lg:translate-y-[0vh] translate-y-[-5vh]'>
+            className='w-full h-screen flex flex-col justify-center items-center translate-y-[-5vh]'>
                 <div
                 className='flex flex-col'>
                     <h1
