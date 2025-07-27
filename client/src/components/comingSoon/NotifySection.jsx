@@ -20,7 +20,6 @@ const NotifySection = () => {
                     email: email
                 }
             ).then((res) => {
-                alert('message sent successfully')
                 setSuccess(true)
                 setEmail('')
             }).catch((res) => {
