@@ -1,13 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Menu, Mountain, Sun, Moon, User, ChevronDown, CheckCircle } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '../ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from '../ui/dropdown-menu';
 
-export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }) {
+export function Header({ darkMode, toggleDarkMode, currentPage }) {
+  const navigate = useNavigate();
+
   const navItems = [
-    { name: 'Home', page: 'home' },
+    { name: 'Home', page: '' },
     { name: 'Events', page: 'events' },
     { name: 'Blog', page: 'blog' },
     { name: 'About', page: 'about' },
@@ -28,12 +31,17 @@ export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }
     { name: 'Reports', page: 'reports', description: 'Analytics & insights' },
   ];
 
+  const goTo = (page) => {
+    navigate(`/${page}`);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => goTo('')}>
             <div className="bg-miv-cyan rounded-lg p-2">
               <Mountain className="h-6 w-6 text-white" />
             </div>
@@ -54,7 +62,7 @@ export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => navigateToPage(item.page)}
+                onClick={() => goTo(item.page)}
                 className={`transition-colors duration-200 font-medium ${
                   currentPage === item.page 
                     ? 'text-miv-cyan' 
@@ -82,7 +90,7 @@ export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }
                 {allPages.map((page) => (
                   <DropdownMenuItem
                     key={page.page}
-                    onClick={() => navigateToPage(page.page)}
+                    onClick={() => goTo(page.page)}
                     className="cursor-pointer"
                   >
                     <div>
@@ -113,7 +121,7 @@ export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }
               variant="outline" 
               size="sm" 
               className="hidden sm:flex"
-              onClick={() => navigateToPage('user-dashboard')}
+              onClick={() => goTo('user-dashboard')}
             >
               <User className="h-4 w-4 mr-2" />
               Login
@@ -132,7 +140,7 @@ export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }
                   Access all pages and features of My India Ventures adventure platform
                 </SheetDescription>
                 <div className="flex flex-col space-y-6 mt-6">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 cursor-pointer" onClick={() => goTo('')}>
                     <div className="bg-miv-cyan rounded-lg p-2">
                       <Mountain className="h-6 w-6 text-white" />
                     </div>
@@ -143,7 +151,7 @@ export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }
                     {navItems.map((item) => (
                       <button
                         key={item.name}
-                        onClick={() => navigateToPage(item.page)}
+                        onClick={() => goTo(item.page)}
                         className={`text-left transition-colors duration-200 font-medium py-2 px-4 rounded-lg hover:bg-accent ${
                           currentPage === item.page 
                             ? 'text-miv-cyan bg-miv-cyan/10' 
@@ -154,15 +162,13 @@ export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }
                       </button>
                     ))}
                     
-                    {/* Divider */}
                     <div className="border-t border-border my-4"></div>
                     <div className="text-sm font-medium text-muted-foreground px-4">All Features</div>
                     
-                    {/* Additional Pages */}
                     {allPages.map((page) => (
                       <button
                         key={page.page}
-                        onClick={() => navigateToPage(page.page)}
+                        onClick={() => goTo(page.page)}
                         className="text-left transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-accent text-foreground hover:text-miv-cyan"
                       >
                         <div className="text-sm font-medium">{page.name}</div>
@@ -173,7 +179,7 @@ export function Header({ darkMode, toggleDarkMode, currentPage, navigateToPage }
 
                   <Button 
                     className="bg-miv-cyan hover:bg-miv-sky-blue text-white"
-                    onClick={() => navigateToPage('user-dashboard')}
+                    onClick={() => goTo('user-dashboard')}
                   >
                     <User className="h-4 w-4 mr-2" />
                     Get Started

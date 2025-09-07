@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
+import { Header} from '../layout/Header'
+import { Footer } from '../layout/Footer'
 import { 
   Mountain, 
   Shield, 
@@ -13,7 +15,7 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
 
-export function AboutPage({ navigateToPage }) {
+export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const values = [
     {
       icon: Shield,
@@ -77,6 +79,7 @@ export function AboutPage({ navigateToPage }) {
 
   return (
     <div className="min-h-screen pt-16">
+      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-r from-miv-navy to-miv-sky-blue relative overflow-hidden">
         <div className="absolute inset-0">

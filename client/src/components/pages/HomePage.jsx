@@ -6,6 +6,8 @@ import { CTASection } from '../sections/CTASections';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
+import { Header } from '../layout/Header';
+import { Footer } from '../layout/Footer';
 import { 
   Calendar, 
   BookOpen, 
@@ -24,7 +26,7 @@ import {
   FileText
 } from 'lucide-react';
 
-export function HomePage({ navigateToPage }) {
+export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
   const pageFeatures = [
     {
       title: 'Adventure Events',
@@ -102,6 +104,7 @@ export function HomePage({ navigateToPage }) {
 
   return (
     <>
+      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <HeroSection navigateToPage={navigateToPage} />
       
       {/* All Features Section */}
@@ -238,6 +241,7 @@ export function HomePage({ navigateToPage }) {
       <FeaturedTreks navigateToPage={navigateToPage} />
       <Testimonials navigateToPage={navigateToPage} />
       <CTASection navigateToPage={navigateToPage} />
+      <Footer />
     </>
   );
 }

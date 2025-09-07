@@ -5,6 +5,8 @@ import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Header} from '../layout/Header'
+import { Footer } from '../layout/Footer'
 import { 
   Search, 
   Calendar, 
@@ -20,7 +22,7 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
 
-export function BlogPage({ navigateToPage }) {
+export function BlogPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -157,6 +159,7 @@ export function BlogPage({ navigateToPage }) {
 
   return (
     <div className="min-h-screen pt-16">
+      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-r from-miv-navy to-miv-sky-blue">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">

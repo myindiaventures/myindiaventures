@@ -5,6 +5,8 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Badge } from '../ui/badge';
+import { Header} from '../layout/Header'
+import { Footer } from '../layout/Footer'
 import { 
   Phone, 
   MessageCircle, 
@@ -20,7 +22,7 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
 
-export function ContactPage({ navigateToPage }) {
+export function ContactPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -107,6 +109,7 @@ export function ContactPage({ navigateToPage }) {
 
   return (
     <div className="min-h-screen pt-16">
+      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-r from-miv-navy to-miv-sky-blue relative overflow-hidden">
         <div className="absolute inset-0">

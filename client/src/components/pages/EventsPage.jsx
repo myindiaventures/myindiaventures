@@ -21,8 +21,10 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
+import { Header } from '../layout/Header';
+import { Footer } from '../layout/Footer';
 
-export function EventsPage({ navigateToPage }) {
+export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
@@ -95,6 +97,7 @@ export function EventsPage({ navigateToPage }) {
   return (
     <div className="min-h-screen pt-16">
       {/* Hero Section */}
+      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <section className="py-20 bg-gradient-to-r from-miv-navy to-miv-sky-blue">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
@@ -239,6 +242,7 @@ export function EventsPage({ navigateToPage }) {
           {filteredEvents.length === 0 && <p className="text-center py-16">No adventures found</p>}
         </div>
       </section>
+      <Footer />
     </div>
   );
 }
