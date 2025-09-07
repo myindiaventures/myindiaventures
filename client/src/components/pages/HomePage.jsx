@@ -103,7 +103,7 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
   ];
 
   return (
-    <>
+    <div>
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <HeroSection navigateToPage={navigateToPage} />
       
@@ -242,6 +242,6 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
       <Testimonials navigateToPage={navigateToPage} />
       <CTASection navigateToPage={navigateToPage} />
       <Footer />
-    </>
+    </div>
   );
 }

@@ -39,7 +39,7 @@ export function HeroSection({ navigateToPage }) {
             style={{ animationDelay: '0.2s' }}
           >
             ADVENTURE
-            <span className="block text-miv-cyan">AWAITS YOU</span>
+            <span className="block text-miv-cyan ">AWAITS YOU</span>
           </h1>
 
           {/* Subheading */}

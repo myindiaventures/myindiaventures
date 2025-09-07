@@ -42,8 +42,8 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between md:h-20 h-16">
           {/* Logo */}
-          <a href="/" className='cursor-pointer'>
-            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => goTo('')}>
+          <a href="/" className=''>
+            <div className="flex items-center space-x-2" onClick={() => goTo('')}>
               <div className="bg-miv-cyan rounded-2xl p-0.25">
                 {/* <Mountain className="h-6 w-6 text-white" /> */}
                 <img src={miv_logo} alt={miv_logo} className=' bg-cover h-12 w-12 rounded-2xl' />

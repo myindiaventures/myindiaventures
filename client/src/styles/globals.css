@@ -257,3 +257,38 @@ html {
 .animate-spin {
   animation: spin 1s linear infinite;
 }
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Tailwind gray-100 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #06b6d4; /* Tailwind cyan-500 */
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8; /* Tailwind sky-400 */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #06b6d4 transparent;
+}
+
+/* mouse cursor */
+html, body {
+  cursor: url('../assets/icons/cursor.svg') 0 0, auto;
+}
+
+button, a {
+  cursor: url('../assets/icons/pointer.svg') 0 0, pointer;
+}
