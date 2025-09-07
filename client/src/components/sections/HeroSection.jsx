@@ -25,7 +25,7 @@ export function HeroSection({ navigateToPage }) {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-miv-cyan/20 backdrop-blur-sm border border-miv-cyan/30 mb-6 animate-fade-in-up">
@@ -35,7 +35,7 @@ export function HeroSection({ navigateToPage }) {
 
           {/* Main Heading */}
           <h1
-            className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 animate-fade-in-up"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold text-white md:mb-8 mb-4 animate-fade-in-up"
             style={{ animationDelay: '0.2s' }}
           >
             ADVENTURE
@@ -44,7 +44,7 @@ export function HeroSection({ navigateToPage }) {
 
           {/* Subheading */}
           <p
-            className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto animate-fade-in-up"
+            className="text-lg md:text-2xl text-gray-200 md:mb-12 mb-8 max-w-3xl mx-auto animate-fade-in-up"
             style={{ animationDelay: '0.4s' }}
           >
             Discover breathtaking treks, thrilling adventures, and unforgettable experiences across India's most
@@ -77,7 +77,7 @@ export function HeroSection({ navigateToPage }) {
 
           {/* Stats */}
           <div
-            className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-8 animate-fade-in-up"
+            className="md:mt-16 mt-12 grid grid-cols-2 md:grid-cols-3 gap-8 animate-fade-in-up"
             style={{ animationDelay: '0.8s' }}
           >
             <div className="text-center">

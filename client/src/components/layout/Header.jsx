@@ -5,6 +5,7 @@ import { Badge } from '../ui/badge';
 import { Menu, Mountain, Sun, Moon, User, ChevronDown, CheckCircle } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '../ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from '../ui/dropdown-menu';
+import miv_logo from '../../assets/logo/miv_logo.png'
 
 export function Header({ darkMode, toggleDarkMode, currentPage }) {
   const navigate = useNavigate();
@@ -39,31 +40,34 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between md:h-20 h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => goTo('')}>
-            <div className="bg-miv-cyan rounded-lg p-2">
-              <Mountain className="h-6 w-6 text-white" />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center space-x-2">
-                <span className="font-bold text-lg text-foreground">MIV</span>
-                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 text-xs px-2 py-0.5 hidden xl:flex">
-                  <CheckCircle className="h-3 w-3 mr-1" />
-                  All Systems Active
-                </Badge>
+          <a href="/" className='cursor-pointer'>
+            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => goTo('')}>
+              <div className="bg-miv-cyan rounded-2xl p-0.25">
+                {/* <Mountain className="h-6 w-6 text-white" /> */}
+                <img src={miv_logo} alt={miv_logo} className=' bg-cover h-12 w-12 rounded-2xl' />
               </div>
-              <span className="text-xs text-muted-foreground -mt-1">Adventure Awaits</span>
+              <div className="flex flex-col">
+                <div className="flex items-center space-x-2">
+                  <span className="font-bold md:text-xl text-lg text-foreground">MIV</span>
+                  {/* <Badge className="bg-green-500/10 text-green-600 border-green-500/20 text-xs px-2 py-0.5 hidden xl:flex">
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    All Systems Active
+                  </Badge> */}
+                </div>
+                <span className="md:text-md text-sm text-muted-foreground -mt-1">Adventure Awaits</span>
+              </div>
             </div>
-          </div>
+          </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8 ">
             {navItems.map((item) => (
               <button
                 key={item.name}
                 onClick={() => goTo(item.page)}
-                className={`transition-colors duration-200 font-medium ${
+                className={`transition-colors duration-200 font-medium md:text-lg cursor-pointer text-md ${
                   currentPage === item.page 
                     ? 'text-miv-cyan' 
                     : 'text-foreground hover:text-miv-cyan'
@@ -105,14 +109,14 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
             {/* Dark mode toggle */}
             <Button
               variant="ghost"
-              size="sm"
+              size="md"
               onClick={toggleDarkMode}
-              className="rounded-full p-2"
+              className="rounded-full p-2 h-8 w-8 cursor-pointer"
             >
               {darkMode ? (
-                <Sun className="h-4 w-4" />
+                <Sun className="h-6 w-6" />
               ) : (
-                <Moon className="h-4 w-4" />
+                <Moon className="h-6 w-6" />
               )}
             </Button>
 
@@ -131,7 +135,7 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" className="md:hidden">
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
@@ -141,8 +145,9 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
                 </SheetDescription>
                 <div className="flex flex-col space-y-6 mt-6">
                   <div className="flex items-center space-x-2 cursor-pointer" onClick={() => goTo('')}>
-                    <div className="bg-miv-cyan rounded-lg p-2">
-                      <Mountain className="h-6 w-6 text-white" />
+                    <div className="bg-miv-cyan rounded-2xl p-0.25 ml-4">
+                      {/* <Mountain className="h-6 w-6 text-white" /> */}
+                      <img src={miv_logo} alt={miv_logo} className=' bg-cover h-12 w-12 rounded-2xl' />
                     </div>
                     <span className="font-bold text-xl">My India Ventures</span>
                   </div>

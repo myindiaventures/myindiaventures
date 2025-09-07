@@ -5,6 +5,7 @@ import { EventsPage } from "./components/pages/EventsPage";
 import { ContactPage } from './components/pages/ContactPage'
 import { BlogPage } from "./components/pages/BlogPage";
 import { AboutPage } from "./components/pages/AboutPage";
+import { FAQPage } from "./components/pages/FAQPage";
 
 export const App = () => {
   const [darkMode, setDarkMode] = useState(true);
@@ -25,11 +26,15 @@ export const App = () => {
 
   return (
     <Routes>
+      {/* main pages */}
       <Route path="/" element={<HomePage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/events" element={<EventsPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/blog" element={<BlogPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/about" element={<AboutPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/contact" element={<ContactPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
+
+      {/* additional pages */}
+      <Route path="/faq" element={<FAQPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
     </Routes>
   );
 };
