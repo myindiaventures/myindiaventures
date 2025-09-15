@@ -5,7 +5,7 @@ import { Badge } from '../ui/badge';
 import { Menu, Mountain, Sun, Moon, User, ChevronDown, CheckCircle } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '../ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from '../ui/dropdown-menu';
-import miv_logo from '../../assets/logo/miv_logo.png'
+import miv_logo from '../../assets/logo/miv_brand_logo.png'
 
 export function Header({ darkMode, toggleDarkMode, currentPage }) {
   const navigate = useNavigate();
