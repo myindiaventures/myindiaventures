@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Menu, Mountain, Sun, Moon, User, ChevronDown, CheckCircle } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '../ui/sheet';
+import { Link } from 'react-router-dom'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from '../ui/dropdown-menu';
 import miv_logo from '../../assets/logo/miv_brand_logo.png'
 
@@ -89,7 +90,7 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-64">
-                <DropdownMenuLabel>All Working Features</DropdownMenuLabel>
+                <DropdownMenuLabel>Our functionalities</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {allPages.map((page) => (
                   <DropdownMenuItem
@@ -97,9 +98,9 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
                     onClick={() => goTo(page.page)}
                     className="cursor-pointer"
                   >
-                    <div>
+                    <div className='hover:text-blue-400 group'>
                       <div className="font-medium">{page.name}</div>
-                      <div className="text-xs text-muted-foreground">{page.description}</div>
+                      <div className="text-xs text-muted-foreground group-hover:text-gray-400">{page.description}</div>
                     </div>
                   </DropdownMenuItem>
                 ))}
