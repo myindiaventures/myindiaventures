@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 import { Menu, Sun, Moon, User, ChevronDown } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '../ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from '../ui/dropdown-menu';
-import miv_logo from '../../assets/logo/miv_brand_logo.png';
+import miv_logo from '../../assets/logo/miv_brand_logo.webp';
 
 export function Header({ darkMode, toggleDarkMode, currentPage }) {
   const navItems = [
