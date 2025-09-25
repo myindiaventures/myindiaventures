@@ -3,6 +3,7 @@ import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { Calendar, Phone, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
+import cta_section_bg from '../../assets/bg/cta_section_bg.webp'
 
 export function CTASection({ navigateToPage }) {
   return (
@@ -10,7 +11,7 @@ export function CTASection({ navigateToPage }) {
       {/* Background */}
       <div className="absolute inset-0">
         <ImageWithFallback
-          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHN1bnNldCUyMGFkdmVudHVyZXxlbnwxfHx8fDE3NTY2NTMwNTF8MA&ixlib=rb-4.1.0&q=80&w=1080"
+          src={cta_section_bg}
           alt="Mountain sunset adventure"
           className="w-full h-full object-cover"
         />

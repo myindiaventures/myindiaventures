@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/seperator';
 import { Mountain, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import miv_logo from '../../assets/logo/miv_brand_logo.webp';
+import { Link } from 'react-router-dom';
 
 export function Footer({ navigateToPage }) {
   const quickLinks = [
@@ -35,8 +37,14 @@ export function Footer({ navigateToPage }) {
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
-              <div className="bg-miv-cyan rounded-lg p-2">
-                <Mountain className="h-8 w-8 text-white" />
+              <div className="bg-miv-cyan rounded-2xl ">
+                {/* Logo */}
+                <Link to="/" className="flex items-center space-x-2">
+                  <div className="bg-miv-cyan rounded-2xl p-0.25">
+                    <img src={miv_logo} alt="MIV Logo" className="bg-cover h-12 w-12 rounded-2xl" />
+                  </div>
+                  
+                </Link>
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-xl text-foreground">My India Ventures</span>
@@ -52,7 +60,7 @@ export function Footer({ navigateToPage }) {
             <div className="space-y-3">
               <div className="flex items-center text-muted-foreground">
                 <Phone className="h-4 w-4 mr-3" />
-                <span className="text-sm">+91 98765 43210</span>
+                <span className="text-sm">+91 93228 16749</span>
               </div>
               <div className="flex items-center text-muted-foreground">
                 <Mail className="h-4 w-4 mr-3" />
@@ -60,7 +68,7 @@ export function Footer({ navigateToPage }) {
               </div>
               <div className="flex items-start text-muted-foreground">
                 <MapPin className="h-4 w-4 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Adventure Hub, Sector 12<br />New Delhi, India 110001</span>
+                <span className="text-sm">Adventure Hub, Sector 12<br />Mumbai Suburban, Mumbai 400077</span>
               </div>
             </div>
           </div>

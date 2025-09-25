@@ -21,6 +21,7 @@ import {
   Award
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
+import get_in_touch from '../../assets/bg/get_in_touch.webp'
 
 export function ContactPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const [formData, setFormData] = useState({
@@ -52,7 +53,7 @@ export function ContactPage({ navigateToPage, darkMode, toggleDarkMode }) {
       title: "WhatsApp Chat",
       description: "Get instant responses to your queries",
       action: "Chat Now",
-      info: "+91 98765 43210",
+      info: "+91 93228 16749",
       color: "bg-green-500",
       available: "24/7 Available"
     },
@@ -61,7 +62,7 @@ export function ContactPage({ navigateToPage, darkMode, toggleDarkMode }) {
       title: "Direct Call", 
       description: "Speak with our adventure experts",
       action: "Call Now",
-      info: "+91 98765 43210",
+      info: "+91 93228 16749",
       color: "bg-blue-500",
       available: "9 AM - 8 PM IST"
     },
@@ -78,26 +79,26 @@ export function ContactPage({ navigateToPage, darkMode, toggleDarkMode }) {
 
   const offices = [
     {
-      city: "New Delhi",
-      address: "Adventure Hub, Sector 12, New Delhi - 110001",
-      phone: "+91 98765 43210",
-      email: "delhi@myindiaventures.com",
+      city: "Mumbai Suburban",
+      address: "Adventure Hub, Mumbai Suburban, Mumbai - 400077",
+      phone: "+91 93228 16749",
+      email: "info@myindiaventures.com",
       isMain: true
     },
-    {
-      city: "Mumbai",
-      address: "Ocean View, Bandra West, Mumbai - 400050",
-      phone: "+91 87654 32109",
-      email: "mumbai@myindiaventures.com",
-      isMain: false
-    },
-    {
-      city: "Rishikesh",
-      address: "River Side Camp, Tapovan, Rishikesh - 249137",
-      phone: "+91 76543 21098",
-      email: "rishikesh@myindiaventures.com",
-      isMain: false
-    }
+    // {
+    //   city: "Mumbai",
+    //   address: "Ocean View, Bandra West, Mumbai - 400050",
+    //   phone: "+91 87654 32109",
+    //   email: "mumbai@myindiaventures.com",
+    //   isMain: false
+    // },
+    // {
+    //   city: "Rishikesh",
+    //   address: "River Side Camp, Tapovan, Rishikesh - 249137",
+    //   phone: "+91 76543 21098",
+    //   email: "rishikesh@myindiaventures.com",
+    //   isMain: false
+    // }
   ];
 
   const stats = [
@@ -114,7 +115,7 @@ export function ContactPage({ navigateToPage, darkMode, toggleDarkMode }) {
       <section className="py-20 bg-gradient-to-r from-miv-navy to-miv-sky-blue relative overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1521791055366-0d553872125f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb250YWN0JTIwc3VwcG9ydCUyMGN1c3RvbWVyJTIwc2VydmljZXxlbnwxfHx8fDE3NTY2NTIzNTl8MA&ixlib=rb-4.1.0&q=80&w=1080"
+            src={get_in_touch}
             alt="Contact support"
             className="w-full h-full object-cover opacity-20"
           />
@@ -341,6 +342,7 @@ export function ContactPage({ navigateToPage, darkMode, toggleDarkMode }) {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

@@ -14,6 +14,10 @@ import {
   Star
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
+import cta_section_bg from '../../assets/bg/cta_section_bg.webp'
+import { Link } from 'react-router-dom';
+import miv_brand_logo from '../../assets/logo/miv_brand_logo.webp'
+import hero_bg from '../../assets/bg/hero_bg.webp'
 
 export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const values = [
@@ -52,7 +56,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
       role: "Adventure Specialist",
       experience: "12+ years",
       speciality: "Solo Travel & Women's Groups",
-      image: "https://images.unsplash.com/photo-1573496267526-8fba73ad0b87?w=1080"
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1080"
     },
     {
       name: "Arjun Singh",
@@ -84,7 +88,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
       <section className="py-20 bg-gradient-to-r from-miv-navy to-miv-sky-blue relative overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080"
+            src={cta_section_bg}
             alt="About MIV"
             className="w-full h-full object-cover opacity-30"
           />
@@ -117,8 +121,12 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
                 we create memories that last a lifetime while fostering a deep connection with India's incredible landscapes.
               </p>
               <div className="flex items-center space-x-4">
-                <div className="bg-miv-cyan rounded-lg p-3">
-                  <Mountain className="h-8 w-8 text-white" />
+                <div className="bg-miv-cyan rounded-2xl">
+                  <Link to="/" className="flex items-center space-x-2">
+                    <div className="bg-miv-cyan rounded-2xl p-0.25">
+                      <img src={miv_brand_logo} alt="MIV Logo" className="bg-cover h-12 w-12 rounded-2xl" />
+                    </div>
+                  </Link>
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">Adventure for All</h3>
@@ -128,7 +136,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
             </div>
             <div className="relative">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1464822759844-d150baec843a?w=1080"
+                src={hero_bg}
                 alt="Our mission"
                 className="w-full h-80 object-cover rounded-2xl"
               />
@@ -240,7 +248,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-6">Our Story</h2>
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Founded in 2010 by a group of passionate mountaineers, My India Ventures started with a simple dream: 
+                Founded in 2025 by a group of passionate mountaineers, My India Ventures started with a simple dream: 
                 to share the incredible beauty and transformative power of India's wilderness with fellow adventure seekers.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
@@ -251,16 +259,16 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
               <div className="space-y-4">
                 <div className="flex items-center">
                   <div className="bg-green-500 w-2 h-2 rounded-full mr-3"></div>
-                  <span className="text-muted-foreground">ISO 9001:2015 Certified Adventure Company</span>
+                  <span className="text-muted-foreground">ISO 9001:2025 Certified Adventure Company</span>
                 </div>
                 <div className="flex items-center">
                   <div className="bg-green-500 w-2 h-2 rounded-full mr-3"></div>
                   <span className="text-muted-foreground">Ministry of Tourism Recognized</span>
                 </div>
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <div className="bg-green-500 w-2 h-2 rounded-full mr-3"></div>
                   <span className="text-muted-foreground">Winner of Best Adventure Company Award 2023</span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -296,6 +304,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { Play, Calendar, MapPin } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
+import hero_bg from '../../assets/bg/hero_bg.webp'
 
 export function HeroSection({ navigateToPage }) {
   return (
@@ -9,7 +10,7 @@ export function HeroSection({ navigateToPage }) {
       {/* Background Image with Parallax Effect */}
       <div className="absolute inset-0 z-0">
         <ImageWithFallback
-          src="https://images.unsplash.com/photo-1690842855840-0b56f4b2a208?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyZWtraW5nJTIwYWR2ZW50dXJlJTIwaGltYWxheWF8ZW58MXx8fHwxNzU2NjUxODIwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+          src={hero_bg}
           alt="Mountain trekking adventure"
           className="w-full h-full object-cover"
         />
