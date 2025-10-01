@@ -5,6 +5,7 @@ import { Menu, Sun, Moon, User, ChevronDown } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '../ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from '../ui/dropdown-menu';
 import miv_logo from '../../assets/logo/miv_brand_logo.webp';
+import GoogleTranslate from '../ui/GoogleTranslate';
 
 export function Header({ darkMode, toggleDarkMode, currentPage }) {
   const navItems = [
@@ -100,7 +101,6 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
             >
               {darkMode ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
             </Button>
-
             {/* Login button */}
             <Link to="/user-dashboard">
               <Button variant="outline" size="sm" className="hidden sm:flex">

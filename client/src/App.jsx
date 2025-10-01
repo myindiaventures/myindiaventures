@@ -31,6 +31,7 @@ export const App = () => {
   return (
    <div>
      <Routes>
+      
       {/* main pages */}
       <Route path="/" element={<HomePage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/events" element={<EventsPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
