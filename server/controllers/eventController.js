@@ -29,6 +29,7 @@ export const createEvent = async (req, res) => {
   }
 };
 
+
 // ✅ Create multiple events
 export const createEvents = async (req, res) => {
   try {
