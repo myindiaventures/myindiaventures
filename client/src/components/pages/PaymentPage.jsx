@@ -22,6 +22,8 @@ import {
   Building2
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
+import miv_logo from '../../../src/assets/logo/miv_brand_logo.webp';
+import axios from 'axios';
 
 export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const [paymentMethod, setPaymentMethod] = useState('card');
@@ -37,19 +39,74 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
     location: "Himachal Pradesh",
     participants: 2,
     guide: "Rajesh Kumar",
-    basePrice: 45000,
-    taxes: 4050,
-    total: 49050
+    basePrice: 45,
+    taxes: 5,
+    total: 50
   };
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
+  try {
     setIsProcessing(true);
-    // Simulate payment processing
-    setTimeout(() => {
-      setIsProcessing(false);
-      setPaymentComplete(true);
-    }, 3000);
-  };
+
+    // Step 1️⃣ Create an order (from your backend)
+    const { data } = await axios.post("https://myindiaventuresserver.vercel.app/miv/payments/create-order", {
+      amount: booking.total, // amount in rupees
+    });
+
+    if (!data.success) throw new Error("Failed to create order");
+    const { order } = data;
+
+    // Step 2️⃣ Razorpay options
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID, // ✅ Test Key
+      amount: order.amount, // already in paise
+      currency: order.currency,
+      name: "My India Ventures",
+      description: booking.title,
+      image: miv_logo,
+      order_id: order.id,
+      handler: async function (response) {
+        try {
+          const verify = await axios.post("https://myindiaventuresserver.vercel.app/miv/payments/verify", response);
+          if (verify.data.success) {
+            setPaymentComplete(true);
+          } else {
+            alert("❌ Payment verification failed");
+          }
+        } catch (err) {
+          console.error("Verification failed:", err);
+          alert("Payment verification failed!");
+        }
+      },
+      prefill: {
+        name: "Jigar Veera",
+        email: "test@example.com",
+        contact: "9876543210",
+      },
+      notes: {
+        booking_id: "MIV-2025-001247",
+      },
+      theme: {
+        color: "#06b6d4",
+      },
+    };
+
+    // Step 3️⃣ Open Razorpay checkout
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
+
+    razorpay.on("payment.failed", function (response) {
+      alert("❌ Payment Failed\n" + response.error.description);
+    });
+  } catch (error) {
+    console.error("Payment error:", error);
+    alert("Something went wrong while initiating payment");
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
+
 
   if (paymentComplete) {
     return (
