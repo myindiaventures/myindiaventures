@@ -88,7 +88,7 @@ export function CTASection({ navigateToPage }) {
               onClick={() => navigateToPage('contact')}
             >
               <Phone className="h-5 w-5 mr-2" />
-              Call +91 98765 43210
+              Call +91 70210 14315
             </Button>
           </div>
 

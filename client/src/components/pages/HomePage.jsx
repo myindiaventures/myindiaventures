@@ -44,22 +44,22 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
       status: 'Available',
       features: ['Expert Articles', 'Video Content', 'Community Stories']
     },
-    {
-      title: 'Live Tracking',
-      description: 'Real-time GPS tracking and safety monitoring during adventures',
-      icon: MapPin,
-      page: 'live-tracking',
-      status: 'Available',
-      features: ['Real-time GPS', 'Safety Monitoring', 'Emergency Alerts']
-    },
-    {
-      title: 'User Dashboard',
-      description: 'Manage your bookings, track progress, and view achievements',
-      icon: Users,
-      page: 'user-dashboard',
-      status: 'Available',
-      features: ['Booking Management', 'Health Tracking', 'Achievement System']
-    },
+    // {
+    //   title: 'Live Tracking',
+    //   description: 'Real-time GPS tracking and safety monitoring during adventures',
+    //   icon: MapPin,
+    //   page: 'live-tracking',
+    //   status: 'Available',
+    //   features: ['Real-time GPS', 'Safety Monitoring', 'Emergency Alerts']
+    // },
+    // {
+    //   title: 'User Dashboard',
+    //   description: 'Manage your bookings, track progress, and view achievements',
+    //   icon: Users,
+    //   page: 'user-dashboard',
+    //   status: 'Available',
+    //   features: ['Booking Management', 'Health Tracking', 'Achievement System']
+    // },
     {
       title: 'Secure Payments',
       description: 'Safe and secure payment processing with multiple options',
@@ -68,14 +68,14 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
       status: 'Available',
       features: ['Multiple Payment Methods', 'Secure Processing', 'Instant Confirmation']
     },
-    {
-      title: 'Photo Gallery',
-      description: 'Browse stunning photos and videos from past adventures',
-      icon: Camera,
-      page: 'gallery',
-      status: 'Available',
-      features: ['High-quality Media', 'Search & Filter', 'Download Options']
-    },
+    // {
+    //   title: 'Photo Gallery',
+    //   description: 'Browse stunning photos and videos from past adventures',
+    //   icon: Camera,
+    //   page: 'gallery',
+    //   status: 'Available',
+    //   features: ['High-quality Media', 'Search & Filter', 'Download Options']
+    // },
     {
       title: 'Reviews & Ratings',
       description: 'Read authentic reviews from real adventure participants',
@@ -106,24 +106,24 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
     <div>
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <HeroSection navigateToPage={navigateToPage} />
+      <FeaturedTreks navigateToPage={navigateToPage} />
       
       {/* All Features Section */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <Badge className="bg-green-500/10 text-green-600 border-green-500/20 mb-4">
+            {/* <Badge className="bg-green-500/10 text-green-600 border-green-500/20 mb-4">
               <CheckCircle className="h-4 w-4 mr-2" />
               All Systems Operational
-            </Badge>
+            </Badge> */}
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-              Fully Functional
+              India's
               <span className="block text-miv-cyan">Adventure Platform</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Explore all our working features and pages. Every component is fully functional and ready to use!
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {pageFeatures.map((feature, index) => {
               const IconComponent = feature.icon;
@@ -176,7 +176,7 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
               );
             })}
           </div>
-
+          
           {/* Additional Pages Section */}
           <div className="mt-16 p-8 bg-card rounded-2xl border">
             <div className="text-center mb-8">
@@ -184,7 +184,7 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
               <p className="text-muted-foreground">More specialized pages for comprehensive functionality</p>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
               <Button 
                 variant="outline" 
                 className="h-16 flex flex-col items-center justify-center space-y-1"
@@ -201,7 +201,7 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
                 <Phone className="h-5 w-5" />
                 <span className="text-xs">Contact</span>
               </Button>
-              <Button 
+              {/* <Button 
                 variant="outline" 
                 className="h-16 flex flex-col items-center justify-center space-y-1"
                 onClick={() => navigateToPage('guide-dashboard')}
@@ -216,7 +216,7 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
               >
                 <Shield className="h-5 w-5" />
                 <span className="text-xs">Admin Panel</span>
-              </Button>
+              </Button> */}
               <Button 
                 variant="outline" 
                 className="h-16 flex flex-col items-center justify-center space-y-1"
@@ -238,7 +238,6 @@ export function HomePage({ navigateToPage, darkMode, toggleDarkMode }) {
         </div>
       </section>
 
-      <FeaturedTreks navigateToPage={navigateToPage} />
       <Testimonials navigateToPage={navigateToPage} />
       <CTASection navigateToPage={navigateToPage} />
       <Footer />

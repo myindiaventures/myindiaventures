@@ -60,7 +60,7 @@ export function Footer({ navigateToPage }) {
             <div className="space-y-3">
               <div className="flex items-center text-muted-foreground">
                 <Phone className="h-4 w-4 mr-3" />
-                <span className="text-sm">+91 93228 16749</span>
+                <span className="text-sm">+91 70210 14315</span>
               </div>
               <div className="flex items-center text-muted-foreground">
                 <Mail className="h-4 w-4 mr-3" />
@@ -68,7 +68,7 @@ export function Footer({ navigateToPage }) {
               </div>
               <div className="flex items-start text-muted-foreground">
                 <MapPin className="h-4 w-4 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Adventure Hub, Sector 12<br />Mumbai Suburban, Mumbai 400077</span>
+                <span className="text-sm">Ghatkopar East<br />Mumbai Suburban, Mumbai 400077</span>
               </div>
             </div>
           </div>
