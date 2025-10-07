@@ -173,7 +173,7 @@ export function FAQPage({ navigateToPage, darkMode, toggleDarkMode }) {
                   <div className="space-y-3">
                     <Button
                       className="w-full bg-green-500 hover:bg-green-600 text-white"
-                      onClick={() => window.open('https://wa.me/919876543210', '_blank')}
+                      onClick={() => window.open('https://wa.me/917021014315', '_blank')}
                     >
                       <MessageCircle className="h-4 w-4 mr-2" />
                       WhatsApp Chat
