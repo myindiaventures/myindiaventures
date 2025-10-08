@@ -57,7 +57,7 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
     duration: "12 Days",
     location: "Himachal Pradesh",
     participants: 1,
-    basePrice: 2000, // 💡 Set a reasonable base price
+    basePrice: 10, // 💡 Set a reasonable base price
   };
 
   // 💡 Use useMemo to correctly calculate totals based on basePrice
