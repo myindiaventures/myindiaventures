@@ -149,7 +149,7 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
           customer_phone: `${countryCode}${customerPhone}`,
         },
         theme: {
-          color: "#06b6d4",
+          color: "#38bdf8",
         },
       };
 

@@ -12,6 +12,7 @@ import { PrivacyPolicyPage } from "./components/pages/PrivacyPolicyPage";
 import { TermsPage } from "./components/pages/TermsPage";
 import { CancellationAndRefundPolicy } from "./components/pages/CancellationAndRefundPolicy";
 import { ShippingAndDeliveryPolicy } from "./components/pages/ShippingAndDeliveryPolicy";
+import { UserDashboard } from "./components/pages/UserDashboard";
 
 export const App = () => {
   const [darkMode, setDarkMode] = useState(true);
@@ -44,6 +45,7 @@ export const App = () => {
       {/* additional pages */}
       <Route path="/faq" element={<FAQPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/payment" element={<PaymentPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
+      <Route path="/user-dashboard" element={<UserDashboard navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/reviews" element={<ReviewsPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/privacy" element={<PrivacyPolicyPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
       <Route path="/terms" element={<TermsPage navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />}/>
