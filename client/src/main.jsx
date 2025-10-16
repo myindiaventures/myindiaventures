@@ -2,14 +2,13 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { App } from './App.jsx'
 import { BrowserRouter } from 'react-router-dom' 
-import { inject } from "@vercel/analytics";
-import { SpeedInsights } from '@vercel/analytics/react';
-
-inject();
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <SpeedInsights /> 
-    <App />
+    <Analytics />
+    <SpeedInsights />
   </BrowserRouter>
 )

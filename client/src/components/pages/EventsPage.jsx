@@ -33,10 +33,10 @@ export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const events = [
     {
       id: 1,
-      title: "Himalayan Base Camp Trek",
+      title: "Koraigad Fort Trek",
       category: "trekking",
-      location: "Himachal Pradesh",
-      duration: "12 Days",
+      location: "Maharashtra",
+      duration: "1 Day",
       difficulty: "Hard",
       price: "₹45,000",
       rating: 4.9,
@@ -48,24 +48,24 @@ export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
       highlights: ["Base Camp Views", "Professional Guides", "All Equipment Included"],
       icon: Mountain
     },
-    {
-      id: 2,
-      title: "Ganges River Rafting",
-      category: "water-sports",
-      location: "Rishikesh",
-      duration: "3 Days",
-      difficulty: "Medium",
-      price: "₹8,500",
-      rating: 4.7,
-      reviews: 89,
-      participants: "6-12",
-      nextDate: "2025-02-20",
-      image: "https://images.unsplash.com/photo-1718383536473-72371285f250?ixlib=rb-4.1.0&q=80&w=1080",
-      description: "Navigate the sacred Ganges with thrilling rapids and serene moments.",
-      highlights: ["Grade III Rapids", "Sacred River", "Safety Equipment"],
-      icon: Waves
-    },
-    // ... other events
+    // {
+    //   id: 2,
+    //   title: "Ganges River Rafting",
+    //   category: "water-sports",
+    //   location: "Rishikesh",
+    //   duration: "3 Days",
+    //   difficulty: "Medium",
+    //   price: "₹8,500",
+    //   rating: 4.7,
+    //   reviews: 89,
+    //   participants: "6-12",
+    //   nextDate: "2025-02-20",
+    //   image: "https://images.unsplash.com/photo-1718383536473-72371285f250?ixlib=rb-4.1.0&q=80&w=1080",
+    //   description: "Navigate the sacred Ganges with thrilling rapids and serene moments.",
+    //   highlights: ["Grade III Rapids", "Sacred River", "Safety Equipment"],
+    //   icon: Waves
+    // },
+    // // ... other events
   ];
 
   const categories = [
@@ -87,9 +87,9 @@ export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
-      case 'Easy': return 'bg-green-500/10 text-green-600 border-green-500/20';
-      case 'Medium': return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20';
-      case 'Hard': return 'bg-red-500/10 text-red-600 border-red-500/20';
+      case 'Beginner': return 'bg-green-500/10 text-green-600 border-green-500/20';
+      case 'Intermediate': return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20';
+      case 'Advance': return 'bg-red-500/10 text-red-600 border-red-500/20';
       default: return 'bg-gray-500/10 text-gray-600 border-gray-500/20';
     }
   };
