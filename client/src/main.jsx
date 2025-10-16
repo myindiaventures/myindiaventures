@@ -7,7 +7,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <SpeedInsights /> 
+    <App />
     <Analytics />
     <SpeedInsights />
   </BrowserRouter>
