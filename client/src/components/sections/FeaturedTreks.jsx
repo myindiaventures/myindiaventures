@@ -4,49 +4,50 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Calendar, MapPin, Users, Star, Clock, TrendingUp } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
+import koraigad01 from '../../assets/locations/koraigad01.png';
 
 export function FeaturedTreks({ navigateToPage }) {
   const treks = [
     {
       id: 1,
-      title: "Himalayan Base Camp Trek",
-      location: "Himachal Pradesh",
-      duration: "12 Days",
-      difficulty: "Challenging",
+      title: "Koraigad Fort Trek",
+      location: "Lonavala, Maharashtra",
+      duration: "1 Day",
+      difficulty: "Beginner",
       rating: 4.8,
       reviews: 245,
-      price: "₹28,000",
-      image: "https://images.unsplash.com/photo-1690842855840-0b56f4b2a208?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyZWtraW5nJTIwYWR2ZW50dXJlJTIwaGltYWxheWF8ZW58MXx8fHwxNzU2NjUxODIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      nextDate: "Mar 15, 2025",
-      spots: 8,
+      price: "₹1,250",
+      image: koraigad01 || "https://images.unsplash.com/photo-1690842855840-0b56f4b2a208?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyZWtraW5nJTIwYWR2ZW50dXJlJTIwaGltYWxheWF8ZW58MXx8fHwxNzU2NjUxODIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      nextDate: "November 16, 2025",
+      spots: 18,
       featured: true
     },
-    {
-      id: 2,
-      title: "Valley of Flowers Trek",
-      location: "Uttarakhand",
-      duration: "6 Days",
-      difficulty: "Moderate",
-      rating: 4.9,
-      reviews: 189,
-      price: "₹15,000",
-      image: "https://images.unsplash.com/photo-1634248302461-df0f954e7b76?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZHZlbnR1cmUlMjBzcG9ydHMlMjByb2NrJTIwY2xpbWJpbmd8ZW58MXx8fHwxNzU2NjUxODIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      nextDate: "Apr 5, 2025",
-      spots: 12
-    },
-    {
-      id: 3,
-      title: "Wilderness Camping",
-      location: "Rajasthan",
-      duration: "3 Days",
-      difficulty: "Easy",
-      rating: 4.7,
-      reviews: 156,
-      price: "₹8,500",
-      image: "https://images.unsplash.com/photo-1643840154458-6d2375f7c5a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1waW5nJTIwdGVudCUyMHdpbGRlcm5lc3MlMjBuYXR1cmV8ZW58MXx8fHwxNzU2NjUxODI1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      nextDate: "Mar 28, 2025",
-      spots: 15
-    }
+    // {
+    //   id: 2,
+    //   title: "Valley of Flowers Trek",
+    //   location: "Uttarakhand",
+    //   duration: "6 Days",
+    //   difficulty: "Moderate",
+    //   rating: 4.9,
+    //   reviews: 189,
+    //   price: "₹15,000",
+    //   image: "https://images.unsplash.com/photo-1634248302461-df0f954e7b76?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZHZlbnR1cmUlMjBzcG9ydHMlMjByb2NrJTIwY2xpbWJpbmd8ZW58MXx8fHwxNzU2NjUxODIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    //   nextDate: "Apr 5, 2025",
+    //   spots: 12
+    // },
+    // {
+    //   id: 3,
+    //   title: "Wilderness Camping",
+    //   location: "Rajasthan",
+    //   duration: "3 Days",
+    //   difficulty: "Easy",
+    //   rating: 4.7,
+    //   reviews: 156,
+    //   price: "₹8,500",
+    //   image: "https://images.unsplash.com/photo-1643840154458-6d2375f7c5a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1waW5nJTIwdGVudCUyMHdpbGRlcm5lc3MlMjBuYXR1cmV8ZW58MXx8fHwxNzU2NjUxODI1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    //   nextDate: "Mar 28, 2025",
+    //   spots: 15
+    // }
   ];
 
   const getDifficultyColor = (difficulty) => {

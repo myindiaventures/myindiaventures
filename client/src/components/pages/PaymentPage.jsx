@@ -26,6 +26,7 @@ import {
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
 import miv_logo from '../../../src/assets/logo/miv_brand_logo.webp';
 import axios from 'axios';
+import koraigad01 from '../../assets/locations/koraigad01.png';
 
 // 💡 Helper function to load the Razorpay script
 const loadRazorpayScript = (src) => {
@@ -51,13 +52,13 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
 
   // Mock booking data with corrected structure
   const booking = {
-    title: "Himalayan Base Camp Trek",
-    image: "https://images.unsplash.com/photo-1690842855840-0b56f4b2a208?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyZkFsbCUyMGhpbWFsYXlhJTIwYWR2ZW50dXJl2fHwxNzU2NjUyMzM1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    date: "March 15, 2025",
-    duration: "12 Days",
-    location: "Himachal Pradesh",
+    title: "Koraigad Fort Trek",
+    image: koraigad01 || "https://images.unsplash.com/photo-1690842855840-0b56f4b2a208?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyZkFsbCUyMGhpbWFsYXlhJTIwYWR2ZW50dXJl2fHwxNzU2NjUyMzM1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    date: "November 16, 2025",
+    duration: "1 Day",
+    location: "Koraigad Fort Maharashtra",
     participants: 1,
-    basePrice: 10, // 💡 Set a reasonable base price
+    basePrice: 1250, // 💡 Set a reasonable base price
   };
 
   // 💡 Use useMemo to correctly calculate totals based on basePrice

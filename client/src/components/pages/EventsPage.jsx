@@ -23,6 +23,7 @@ import {
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
 import { Header } from '../layout/Header';
 import { Footer } from '../layout/Footer';
+import koraigad01 from '../../assets/locations/koraigad01.png';
 
 export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,14 +39,14 @@ export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
       location: "Maharashtra",
       duration: "1 Day",
       difficulty: "Beginner",
-      price: "₹1,199",
+      price: "₹1,250",
       rating: 4.9,
       reviews: 156,
-      participants: "8-15",
-      nextDate: "2025-03-15",
-      image: "https://images.unsplash.com/photo-1690842855840-0b56f4b2a208?ixlib=rb-4.1.0&q=80&w=1080",
+      participants: "19",
+      nextDate: "2025-11-16",
+      image: koraigad01 || "https://images.unsplash.com/photo-1690842855840-0b56f4b2a208?ixlib=rb-4.1.0&q=80&w=1080",
       description: "Experience the ultimate Himalayan adventure with breathtaking views and expert guides.",
-      highlights: ["Base Camp Views", "Professional Guides", "All Equipment Included"],
+      highlights: ["AC Traveller", "Breakfast Included", "Male & Female Guides", "Medical Kit", "Momentos"],
       icon: Mountain
     },
     // {
@@ -157,9 +158,9 @@ export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Levels</SelectItem>
-                  <SelectItem value="Easy">Easy</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="Hard">Hard</SelectItem>
+                  <SelectItem value="Beginner">Beginner</SelectItem>
+                  <SelectItem value="Intermediate">Intermediate</SelectItem>
+                  <SelectItem value="Advanced">Advanced</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
