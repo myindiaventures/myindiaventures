@@ -1,82 +1,114 @@
 import mongoose from "mongoose"
 
-const eventSchema = new mongoose.Schema(
-  {
-    id: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true
+const eventSchema = new mongoose.Schema({
+    // Basic Details
+    title: {
+        type: String,
+        required: [true, 'Event title is required'],
+        trim: true,
     },
-    name: {
-      type: String,
-      required: true,
-      trim: true
+    category: {
+        type: String,
+        enum: ['trekking', 'sightseeing', 'adventure', 'camping', 'water-sports', 'other'], // Updated enum with new categories
+        default: 'trekking',
     },
     location: {
-      state: { type: String, required: true },
-      region: { type: String, required: true },
-      nearest_city: { type: String, required: true },
-      coordinates: {
-        latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true }
-      }
-    },
-    difficulty: {
-      type: String,
-      enum: ["Easy", "Moderate", "Challenging"],
-      required: true
+        type: String,
+        required: true,
+        trim: true,
     },
     duration: {
-      days: { type: Number, default: 1 },
-      hours: { type: Number, default: 0 }
+        type: String, // e.g., "1 Day", "5 Days"
+        required: true,
     },
-    distance_km: { type: Number },
-    altitude_m: { type: Number },
-    highlights: [{ type: String }],
-    best_season: [
-      {
+    difficulty: {
         type: String,
-        enum: ["Winter", "Summer", "Monsoon", "Post-Monsoon"]
-      }
-    ],
-    activities: [
-      {
+        enum: ['Beginner', 'Intermediate', 'Advance'],
+        default: 'Beginner',
+    },
+    
+    // Price (Stored as Number for calculations)
+    price: { 
+        type: Number, 
+        required: true,
+        min: 0,
+    },
+    
+    // Statistics
+    rating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        default: 0,
+    },
+    reviews: {
+        type: Number,
+        min: 0,
+        default: 0,
+    },
+    participants: {
+        type: Number, // Stores the max number of participants allowed (e.g., 18)
+        default: 0,
+    },
+    
+    // Dates & Media
+    nextDate: {
+        type: Date, // Use Date type
+    },
+    image: {
+        type: String, // URL/Path to the main image
+    },
+    galleryImages: {
+        type: [String], // Array of image URLs/paths (from previous full object)
+        default: [],
+    },
+    
+    // Content
+    description: {
         type: String,
-        enum: ["Trekking", "Camping", "Photography", "Fort Visit", "Stargazing", "Pilgrimage"]
-      }
-    ],
-    itinerary: [
-      {
+        required: true,
+    },
+    highlights: {
+        type: [String], // Array of short highlight titles (can include inclusions here too)
+        default: [],
+    },
+    highlightsDescription: {
+        type: [String], // Array of corresponding highlight descriptions (from previous full object)
+        default: [],
+    },
+    
+    // New Field: Icon for UI display (using a string to store the reference, e.g., 'Mountain')
+    icon: {
+        type: String, 
+        trim: true
+    },
+    
+    // Itinerary Structure (from previous full object)
+    itinerary: [{
         day: { type: Number, required: true },
         title: { type: String, required: true },
-        description: { type: String }
-      }
-    ],
-    inclusions: [{ type: String }],
-    exclusions: [{ type: String }],
-    requirements: {
-      fitness_level: { type: String },
-      gear: [{ type: String }]
+        description: { type: String, required: true },
+    }],
+    
+    // Inclusions & Exclusions (from previous full object)
+    included: {
+        type: [String],
+        default: [],
     },
-    pricing: {
-      per_person_inr: { type: Number, required: true },
-      group_discount: {
-        min_size: { type: Number },
-        discount_percent: { type: Number }
-      }
+    notIncluded: {
+        type: [String],
+        default: [],
     },
-    booking: {
-      available_slots: { type: Number, default: 0 },
-      cutoff_hours_before_start: { type: Number, default: 24 }
-    },
-    media: {
-      images: [{ type: String }],
-      videos: [{ type: String }]
-    }
-  },
-  { timestamps: true }
-);
+
+    // Essential Info (from previous full object)
+    essentialInfo: [{
+        label: { type: String, required: true },
+        value: { type: String, required: true },
+        icon: { type: String }, 
+    }],
+}, {
+    timestamps: true 
+});
 
 const Event = mongoose.model("Events", eventSchema);
 

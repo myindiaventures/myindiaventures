@@ -268,7 +268,7 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode })
                     <Button
                       size="lg"
                       className="w-full bg-miv-cyan hover:bg-miv-sky-blue text-white text-lg py-6 group"
-                      onClick={() => navigateToPage(`/payment`)}
+                      onClick={() => navigateToPage("")}
                     >
                       Proceed to Payment
                       <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
