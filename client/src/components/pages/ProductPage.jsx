@@ -664,7 +664,7 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                 <Button
                   size="lg"
                   className="bg-white text-miv-navy hover:bg-white/90 px-8 py-6 text-lg group"
-                  onClick={() => navigateToPage('payment')}
+                  onClick={() => navigateToPage(`payment/${currentEvent.id}`)}
                 >
                   Book Now - {currentEvent.price}
                   <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />

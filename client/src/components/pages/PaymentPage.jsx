@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -9,23 +10,25 @@ import { Checkbox } from '../ui/checkbox';
 import { Header } from '../layout/Header';
 import { Footer } from '../layout/Footer';
 import {
-  CreditCard,
-  Shield,
-  CheckCircle,
-  Calendar,
-  MapPin,
-  Users,
-  Clock,
-  ArrowLeft,
-  Lock,
-  Smartphone,
-  Building2,
-  Mail,
-  User
+  CreditCard,
+  Shield,
+  CheckCircle,
+  Calendar,
+  MapPin,
+  Users,
+  Clock,
+  ArrowLeft,
+  Lock,
+  Smartphone,
+  Building2,
+  Mail,
+  User,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
 import miv_logo from '../../../src/assets/logo/miv_brand_logo.webp';
-import { paymentService } from '../../services/api';
+import { paymentService, eventService } from '../../services/api';
 import koraigad01 from '../../assets/locations/koraigad01.png';
 
 // Helper function to load the Razorpay script
@@ -39,25 +42,96 @@ const loadRazorpayScript = (src) => {
   });
 };
 
-export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentComplete, setPaymentComplete] = useState(false);
-  const [isAgreed, setIsAgreed] = useState(false);
-  const [participants, setParticipants] = useState(1); // Default to 1
-  const [customerName, setCustomerName] = useState('');
-  const [customerEmail, setCustomerEmail] = useState('');
-  const [countryCode, setCountryCode] = useState('+91');
-  const [customerPhone, setCustomerPhone] = useState('');
+export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode, eventId: propEventId, event }) {
+  const { eventId: urlEventId } = useParams();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentComplete, setPaymentComplete] = useState(false);
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [participants, setParticipants] = useState(1); // Default to 1
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [countryCode, setCountryCode] = useState('+91');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [eventData, setEventData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Mock booking data
-  const booking = {
-    title: "Koraigad Fort Trek",
-    image: koraigad01 || "https://images.unsplash.com/photo-1690842855840-0b56f4b2a208?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyZkFsbCUyMGhpbWFsYXlhJTIwYWR2ZW50dXJl2fHwxNzU2NjUyMzM1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    date: "November 16, 2025",
-    duration: "1 Day",
-    location: "Koraigad Fort Maharashtra",
-    basePricePerPerson: 1199,
-  };
+  // Use eventId from URL params, props, or fallback
+  const eventId = urlEventId || propEventId;
+
+  // Fetch event details from backend
+  useEffect(() => {
+    const fetchEventDetails = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        let response;
+        if (eventId) {
+          // Fetch specific event by ID
+          response = await eventService.getEventById(eventId);
+        } else if (event) {
+          // Use passed event data
+          setEventData(event);
+          setIsLoading(false);
+          return;
+        } else {
+          // Default to first available event if no specific event provided
+          const allEventsResponse = await eventService.getAllEvents();
+          if (allEventsResponse.success && allEventsResponse.data && allEventsResponse.data.length > 0) {
+            response = allEventsResponse;
+            response.data = allEventsResponse.data[0]; // Use first event
+          } else {
+            throw new Error('No events available');
+          }
+        }
+        
+        if (response.success && response.data) {
+          setEventData(response.data);
+        } else {
+          throw new Error('Invalid response format');
+        }
+      } catch (err) {
+        console.error('Error fetching event details:', err);
+        setError(err.message);
+        // Fallback to default event data
+        setEventData({
+          _id: "68f26fb112206365cef1a067",
+          title: "Koraigad Fort Trek",
+          image: koraigad01,
+          nextDate: "2025-11-16",
+          duration: "1 Day",
+          location: "Koraigad Fort Maharashtra",
+          price: 1199,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEventDetails();
+  }, [eventId, event]);
+
+  // Transform event data for booking
+  const booking = eventData ? {
+    title: eventData.title,
+    image: eventData.image || koraigad01,
+    date: eventData.nextDate ? new Date(eventData.nextDate).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }) : "TBD",
+    duration: eventData.duration || "1 Day",
+    location: eventData.location || "TBD",
+    basePricePerPerson: eventData.price || 1199,
+  } : {
+    title: "Koraigad Fort Trek",
+    image: koraigad01,
+    date: "November 16, 2025",
+    duration: "1 Day",
+    location: "Koraigad Fort Maharashtra",
+    basePricePerPerson: 1199,
+  };
 
   // --- Price Calculation Logic (useMemo) ---
   const calculatedTotals = useMemo(() => {
@@ -106,35 +180,56 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
 
   const { baseCost, discount, totalBookingFees, processingFees, gst, total, taxes } = calculatedTotals;
 
-  // --- Handler for Payment ---
-  const handlePayment = async () => {
-    // Input Validation
-    if (!isAgreed) {
-      alert("Please agree to the Terms & Conditions and Privacy Policy before proceeding.");
-      return;
-    }
+  // --- Handler for Payment ---
+  const handlePayment = async () => {
+    // Input Validation
+    if (!isAgreed) {
+      alert("Please agree to the Terms & Conditions and Privacy Policy before proceeding.");
+      return;
+    }
 
-    if (!customerName || !customerEmail || !customerPhone || participants < 1) {
-      alert("Please ensure all booking details (name, email, phone, and at least 1 participant) are correctly filled.");
-      return;
-    }
+    if (!customerName || !customerEmail || !customerPhone || participants < 1) {
+      alert("Please ensure all booking details (name, email, phone, and at least 1 participant) are correctly filled.");
+      return;
+    }
 
-    // 1. Load the Razorpay script
-    const res = await loadRazorpayScript('https://checkout.razorpay.com/v1/checkout.js');
-    if (!res) {
-      alert('Razorpay SDK failed to load. Are you offline?');
-      return;
-    }
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(customerEmail)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
 
-    try {
-      setIsProcessing(true);
+    // Validate phone number
+    if (customerPhone.length < 10) {
+      alert("Please enter a valid phone number (at least 10 digits).");
+      return;
+    }
+
+    // Check if Razorpay key is available
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
+    if (!razorpayKey) {
+      alert("Payment configuration error. Please contact support.");
+      console.error("Razorpay Key ID not found in environment variables");
+      return;
+    }
+
+    // 1. Load the Razorpay script
+    const res = await loadRazorpayScript('https://checkout.razorpay.com/v1/checkout.js');
+    if (!res) {
+      alert('Razorpay SDK failed to load. Please check your internet connection and try again.');
+      return;
+    }
+
+    try {
+      setIsProcessing(true);
 
       // Step 2️⃣ Create an order (from your backend)
-      const amountInPaise = Math.round(total); 
+      const amountInPaise = Math.round(total * 100); // Convert to paise
 
       const orderData = {
         amount: amountInPaise,
-        eventId: "68f26fb112206365cef1a067", // Default event ID - in real app, this would come from props/state
+        eventId: eventData?._id || "68f26fb112206365cef1a067", // Use dynamic event ID
         customer: {
           name: customerName,
           email: customerEmail,
@@ -149,22 +244,31 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
         }
       };
 
+      console.log("Creating order with data:", orderData);
       const { data } = await paymentService.createOrder(orderData);
 
-      if (!data.success) throw new Error("Failed to create order");
+      if (!data.success) {
+        throw new Error(data.message || "Failed to create order");
+      }
+      
+      if (!data.data || !data.data.order || !data.data.bookingId) {
+        throw new Error("Invalid order response from server");
+      }
+      
       const { order, bookingId } = data.data;
 
-      // Step 3️⃣ Razorpay options
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: order.amount,
-        currency: order.currency,
-        name: "My India Ventures",
-        description: booking.title,
-        image: miv_logo,
-        order_id: order.id,
+      // Step 3️⃣ Razorpay options
+      const options = {
+        key: razorpayKey,
+        amount: order.amount,
+        currency: order.currency || 'INR',
+        name: "My India Ventures",
+        description: booking.title,
+        image: miv_logo,
+        order_id: order.id,
         handler: async function (response) {
           try {
+            console.log("Payment response:", response);
             const verifyData = {
               ...response,
               bookingId: bookingId
@@ -173,18 +277,18 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
             if (verify.success) {
               setPaymentComplete(true);
             } else {
-              alert("❌ Payment verification failed");
+              alert("❌ Payment verification failed: " + (verify.message || "Unknown error"));
             }
           } catch (err) {
             console.error("Verification failed:", err);
-            alert("Payment verification failed!");
+            alert("Payment verification failed: " + err.message);
           }
         },
-        prefill: {
-          name: customerName,
-          email: customerEmail,
-          contact: `${countryCode}${customerPhone}`,
-        },
+        prefill: {
+          name: customerName,
+          email: customerEmail,
+          contact: `${countryCode}${customerPhone}`,
+        },
         notes: {
           booking_id: bookingId,
           customer_name: customerName,
@@ -193,25 +297,33 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
           participants: participants,
           total_amount: Math.ceil(total).toLocaleString(),
         },
-        theme: {
-          color: "#38bdf8",
-        },
-      };
+        theme: {
+          color: "#38bdf8",
+        },
+        modal: {
+          ondismiss: function() {
+            console.log("Payment modal dismissed");
+            setIsProcessing(false);
+          }
+        }
+      };
 
-      // Step 4️⃣ Open Razorpay checkout
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
+      // Step 4️⃣ Open Razorpay checkout
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
 
-      razorpay.on("payment.failed", function (response) {
-        alert("❌ Payment Failed\n" + response.error.description);
-      });
-    } catch (error) {
-      console.error("Payment error:", error);
-      alert("Something went wrong while initiating payment");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+      razorpay.on("payment.failed", function (response) {
+        console.error("Payment failed:", response);
+        alert("❌ Payment Failed\n" + (response.error.description || "Unknown error"));
+        setIsProcessing(false);
+      });
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Something went wrong while initiating payment: " + error.message);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
 
   if (paymentComplete) {
@@ -245,9 +357,55 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
         </div>
       </div>
     );
-  }
+  }
 
-  return (
+  // Loading State
+  if (isLoading) {
+    return (
+      <div className="min-h-screen pt-16 bg-muted/30">
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-miv-cyan" />
+              <h2 className="text-2xl font-semibold mb-2">Loading Event Details...</h2>
+              <p className="text-muted-foreground">Please wait while we fetch the latest information</p>
+            </div>
+          </div>
+        </div>
+        <Footer navigateToPage={navigateToPage} />
+      </div>
+    );
+  }
+
+  // Error State
+  if (error && !eventData) {
+    return (
+      <div className="min-h-screen pt-16 bg-muted/30">
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <AlertCircle className="h-8 w-8 mx-auto mb-4 text-red-500" />
+              <h3 className="text-xl font-semibold mb-2">Failed to load event details</h3>
+              <p className="text-muted-foreground mb-4">{error}</p>
+              <div className="space-x-4">
+                <Button onClick={() => window.location.reload()} className="bg-miv-cyan hover:bg-miv-cyan/90">
+                  Try Again
+                </Button>
+                <Button variant="outline" onClick={() => navigateToPage('events')}>
+                  Back to Events
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Footer navigateToPage={navigateToPage} />
+      </div>
+    );
+  }
+
+  return (
     <div className="min-h-screen pt-16 bg-muted/30">
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">

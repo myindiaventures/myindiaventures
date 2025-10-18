@@ -82,9 +82,15 @@ export const paymentService = {
   // Create payment order
   createOrder: async (orderData) => {
     try {
+      console.log("Sending order data to backend:", orderData);
       const response = await api.post('/payments/create-order', orderData);
+      console.log("Order creation response:", response.data);
       return response.data;
     } catch (error) {
+      console.error("Order creation error:", error);
+      if (error.response?.data?.message) {
+        throw new Error(`Failed to create order: ${error.response.data.message}`);
+      }
       throw new Error(`Failed to create order: ${error.message}`);
     }
   },
@@ -92,9 +98,15 @@ export const paymentService = {
   // Verify payment
   verifyPayment: async (paymentData) => {
     try {
+      console.log("Verifying payment with data:", paymentData);
       const response = await api.post('/payments/verify', paymentData);
+      console.log("Payment verification response:", response.data);
       return response.data;
     } catch (error) {
+      console.error("Payment verification error:", error);
+      if (error.response?.data?.message) {
+        throw new Error(`Failed to verify payment: ${error.response.data.message}`);
+      }
       throw new Error(`Failed to verify payment: ${error.message}`);
     }
   },
