@@ -3,6 +3,7 @@
 
 import mongoose from 'mongoose';
 import Event from '../models/eventSchema.js';
+import { cleanEventData } from '../utils/dataCleaner.js';
 
 const testEventCreation = async () => {
   try {
@@ -10,78 +11,101 @@ const testEventCreation = async () => {
     await mongoose.connect(process.env.MONGO_URI_01);
     console.log('Connected to MongoDB');
 
-    // Test event data (without id field)
+    // Test event data with problematic _id fields (like your Postman request)
     const testEventData = {
-      title: "Test Koraigad Fort Trek",
-      category: "trekking",
-      location: "Lonavala, Maharashtra",
+      title: "Kundalika River Rafting",
+      category: "camping",
+      location: "Kolad, Maharashtra",
       duration: "1 Day",
-      difficulty: "Beginner",
-      price: 1199,
-      rating: 4.9,
-      reviews: 156,
-      participants: 18,
-      nextDate: new Date("2025-11-16T00:00:00.000Z"),
-      image: "koraigad01.png",
-      galleryImages: ["koraigad01", "koraigad02", "koraigad03", "koraigad04", "koraigad05"],
-      description: "Embark on an exhilarating monsoon adventure that blends history, breathtaking vistas, and serene nature escapes! Join us as we explore the majestic Koraigad Fort, a historic sentinel offering panoramic views of the surrounding Western Ghats.",
-      highlights: ["Koraigad Fort Trek", "Tiger Point (Vaghjai Plateau)", "Shivling Point", "Bhushi Dam"],
-      highlightsDescription: [
-        "Explore ancient fortifications, temples, and enjoy 360-degree views from the plateau.",
-        "Witness incredible valley views, often shrouded in mystic fog.",
-        "Observe the distinctive natural rock formation.",
-        "Enjoy the gushing waters and vibrant atmosphere (seasonal)."
+      difficulty: "Intermediate",
+      price: 2899,
+      rating: 4.8,
+      reviews: 95,
+      participants: 25,
+      nextDate: new Date("2025-11-23T00:00:00.000Z"),
+      image: "kolad01.png",
+      galleryImages: [
+        "kolad01",
+        "kolad02",
+        "kolad03",
+        "kolad04",
+        "kolad05"
       ],
-      icon: "Mountain",
+      description: "Experience the adrenaline rush of White Water Rafting on the Kundalika River! Located in Kolad, this is a thrilling monsoon activity featuring Grade II and III rapids, perfect for both beginners and experienced rafters. Enjoy a day full of splash and excitement amidst the lush green Western Ghats.",
+      highlights: [
+        "White Water Rafting on Kundalika",
+        "12 Kilometers of Rafting",
+        "Swimming in calm sections",
+        "Local Maharashtrian Lunch"
+      ],
+      highlightsDescription: [
+        "Navigate exhilarating Grade II and III rapids with professional guidance.",
+        "A full run of the controlled river section with dam water release.",
+        "Take a refreshing dip in the safer, non-rapid zones.",
+        "Enjoy authentic and delicious vegetarian and non-vegetarian cuisine."
+      ],
+      icon: "Water",
       itinerary: [
         {
           day: 1,
-          title: "Departure, Trek & Return",
-          description: "Meet at Dadar, gear check, drive to base. Begin scenic trek to Koraigad Fort. Explore ruins, descend, and return journey to the city."
+          title: "Travel, Raft & Return",
+          description: "Meet in Pune/Mumbai, travel to Kolad. Safety briefing and gear up. Start the 3-hour rafting session. Lunch and return journey to the city.",
+          "_id": "68f26fb112206365cef1b01e" // This _id field was causing the error
         }
       ],
       included: [
         "AC Traveller",
-        "Breakfast included",
-        "Male & Female Guide",
-        "Medical Kit & First Aid",
-        "Momentos"
+        "Rafting Equipment (Life Jackets, Helmets)",
+        "Certified River Guides",
+        "Toll & Parking Charges",
+        "Changing Room Facilities"
       ],
       notIncluded: [
-        "Personal trekking gear (boots, backpack)",
-        "Travel insurance",
-        "Lunch",
-        "Tips for guides & staff",
-        "Any items not mentioned in inclusions"
+        "Breakfast & Dinner",
+        "Personal river shoes or sandals",
+        "Insurance or personal emergency costs",
+        "Underwater photography/videography"
       ],
       essentialInfo: [
         {
           label: "Fitness Level",
-          value: "Good physical fitness required",
-          icon: "Award"
+          value: "Basic physical fitness required (must know swimming is a plus)",
+          icon: "Award",
+          "_id": "68f26fb112206365cef1b01f" // This _id field was causing the error
         },
         {
           label: "Group Size",
-          value: "18 people",
-          icon: "Users"
+          value: "25 people (5 per raft)",
+          icon: "Users",
+          "_id": "68f26fb112206365cef1b02a" // This _id field was causing the error
         },
         {
           label: "Best Season",
-          value: "March to June, Sept to Nov",
-          icon: "Calendar"
+          value: "June to October (Monsoon season for water flow)",
+          icon: "Calendar",
+          "_id": "68f26fb112206365cef1b02b" // This _id field was causing the error
         },
         {
-          label: "Altitude",
-          value: "Up to 920m (Koraigad)",
-          icon: "Mountain"
+          label: "River Grade",
+          value: "II to III",
+          icon: "Zap",
+          "_id": "68f26fb112206365cef1b02c" // This _id field was causing the error
         }
-      ]
+      ],
+      createdAt: "2025-10-18T05:30:15.120Z", // These fields were also causing issues
+      updatedAt: "2025-10-18T05:30:15.120Z",
+      __v: 0
     };
 
-    console.log('Creating test event...');
+    console.log('Creating test event with problematic data...');
+    console.log('Original data has _id fields in nested objects that should cause errors');
+    
+    // Clean the data using our utility function
+    const cleanedData = cleanEventData(testEventData);
+    console.log('Data cleaned - removed all _id fields from nested objects');
     
     // Create the event
-    const event = await Event.create(testEventData);
+    const event = await Event.create(cleanedData);
     
     console.log('✅ Event created successfully!');
     console.log('Event ID:', event._id);

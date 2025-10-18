@@ -1,5 +1,6 @@
 import Event from '../models/eventSchema.js'
 import redis from '../cacheManager/redisClient.js'
+import { cleanEventData, cleanMultipleEventData } from '../utils/dataCleaner.js'
 
 // 🔹 Helper: Clear Redis cache whenever data changes
 const resetCache = async () => {
@@ -10,12 +11,10 @@ const resetCache = async () => {
 // ✅ Create a single event
 export const createEvent = async (req, res) => {
   try {
-    // Remove any conflicting id field from request body
-    const eventData = { ...req.body };
-    delete eventData.id; // Remove id field if it exists
-    delete eventData._id; // Remove _id field if it exists
+    // Clean the event data to remove conflicting fields
+    const cleanedEventData = cleanEventData(req.body);
 
-    let event = await Event.create(eventData);
+    let event = await Event.create(cleanedEventData);
 
     // reset cache after insertion
     await resetCache();
@@ -38,15 +37,10 @@ export const createEvent = async (req, res) => {
 // ✅ Create multiple events
 export const createEvents = async (req, res) => {
   try {
-    // Remove any conflicting id fields from request body
-    const eventsData = req.body.map(event => {
-      const cleanEvent = { ...event };
-      delete cleanEvent.id; // Remove id field if it exists
-      delete cleanEvent._id; // Remove _id field if it exists
-      return cleanEvent;
-    });
+    // Clean all event data to remove conflicting fields
+    const cleanedEventsData = cleanMultipleEventData(req.body);
 
-    let events = await Event.insertMany(eventsData);
+    let events = await Event.insertMany(cleanedEventsData);
 
     // reset cache after insertion
     await resetCache();
