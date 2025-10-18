@@ -89,7 +89,7 @@ export const getEventByName = async (req, res) => {
   try {
     const { username } = req.params;
 
-    let event = await Event.findOne({ username });
+    let event = await Event.findOne({ title });
 
     if (!event) {
       return res.status(404).json({
