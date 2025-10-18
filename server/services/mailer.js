@@ -15,7 +15,6 @@ export const sendEmail = async (to, subject, html) => {
     const mailOptions = {
       from: `"My India Ventures" <${process.env.SMTP_USER}>`,
       to,
-      cc: "bookings@myindiaventures.com",
       subject,
       html,
     };
