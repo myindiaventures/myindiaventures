@@ -1,52 +1,72 @@
 // models/Booking.js
 import mongoose from "mongoose";
 
+const paymentDetailsSchema = new mongoose.Schema({
+  orderId: { type: String, required: true },
+  paymentId: { type: String, required: true },
+  signature: { type: String },
+  amount: { type: Number, required: true },
+  status: { 
+    type: String, 
+    enum: ["success", "failed", "pending"], 
+    default: "pending" 
+  },
+}, { _id: false }); // prevent auto _id for subdocument
+
 const bookingSchema = new mongoose.Schema(
   {
+    // Auto-generated Booking ID (like MIV-<timestamp>-<rand>)
     bookingId: {
       type: String,
       required: true,
       unique: true,
     },
+
+    // Customer Details
     name: {
       type: String,
-      required: true,
+      required: [true, "Customer name is required"],
       trim: true,
     },
-    phoneNumber: {
+    phone: {
       type: String,
-      required: true,
-      trim: true,
+      required: [true, "Phone number is required"],
+      match: [/^\+?\d{7,15}$/, "Invalid phone number format"],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Email is required"],
       lowercase: true,
       trim: true,
+      match: [/^\S+@\S+\.\S+$/, "Invalid email address"],
     },
+
+    // Event Details
     eventName: {
       type: String,
-      required: true,
+      required: [true, "Event name is required"],
       trim: true,
-    },
-    eventId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Event", // optional, if you have an Event model
     },
     participants: {
       type: Number,
-      required: true,
-      min: 1,
+      required: [true, "Number of participants is required"],
+      min: [1, "There must be at least 1 participant"],
     },
+
+    // Payment Details (embedded sub-schema)
     paymentDetails: {
-      amount: { type: Number, required: true },
-      currency: { type: String, default: "INR" },
-      status: { type: String, enum: ["pending", "success", "failed"], default: "pending" },
-      transactionId: { type: String },
-      method: { type: String }, // e.g., "Razorpay", "Stripe", etc.
+      type: paymentDetailsSchema,
+      required: true,
+    },
+
+    // Optional booking status (in case you want to manage cancellations later)
+    status: {
+      type: String,
+      enum: ["confirmed", "cancelled", "pending"],
+      default: "confirmed",
     },
   },
-  { timestamps: true } // adds createdAt and updatedAt automatically
+  { timestamps: true }
 );
 
 const Booking = mongoose.model("BookingS", bookingSchema);

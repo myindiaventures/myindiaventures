@@ -184,26 +184,26 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
           try {
             const verify = await axios.post("https://myindiaventuresserver.vercel.app/miv/payments/verify", response);
             if (verify.data.success) {
-              // 2️⃣ Construct Booking Data
+                // 2️⃣ Construct Booking Data
                 const bookingData = {
-                    bookingId, // same one you generated earlier
+                    bookingId:bookingId, // same one you generated earlier
                     name: customerName,
                     phone: `${countryCode}${customerPhone}`,
                     email: customerEmail,
                     eventName: booking.title,
-                    participants,
+                    participants:participants,
                     paymentDetails: {
-                    orderId: response.razorpay_order_id,
-                    paymentId: response.razorpay_payment_id,
-                    signature: response.razorpay_signature,
-                    amount: Math.ceil(total),
-                    status: "success",
+                        orderId: response.razorpay_order_id,
+                        paymentId: response.razorpay_payment_id,
+                        signature: response.razorpay_signature,
+                        amount: Math.ceil(total),
+                        status: "success",
                     },
                 };
 
                 // 3️⃣ Send Booking to Backend
                 const saveBooking = await axios.post(
-                    "https://myindiaventuresserver.vercel.app/miv/bookings/create-booking",
+                    "https://myindiaventuresserver.vercel.app/miv/bookings",
                     bookingData
                 );
 
@@ -213,10 +213,9 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
                 } else {
                     console.warn("⚠️ Booking saved but response unclear:", saveBooking.data);
                 }
-
-            } else {
-              alert("❌ Payment verification failed");
-            }
+                } else {
+                alert("❌ Payment verification failed");
+                }
           } catch (err) {
             console.error("Verification failed:", err);
             alert("Payment verification failed!");
@@ -359,7 +358,7 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
                     <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-1" />
-                        {booking.date}
+                        {booking.nextDate}
                       </div>
                       <div className="flex items-center">
                         <Clock className="h-4 w-4 mr-1" />
