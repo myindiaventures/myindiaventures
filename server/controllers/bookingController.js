@@ -41,7 +41,7 @@ export const createBooking = async (req, res) => {
     // Auto-generate bookingId if not provided
 
     const booking = new Booking({
-      bookingId: bookingId,
+      bookingId: req.body.bookingId,
       name: req.body.name,
       phone: req.body.phone,
       email: req.body.email,
