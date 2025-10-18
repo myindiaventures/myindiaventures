@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
 import miv_logo from '../../../src/assets/logo/miv_brand_logo.webp';
-import axios from 'axios';
+import { paymentService } from '../../services/api';
 import koraigad01 from '../../assets/locations/koraigad01.png';
 
 // Helper function to load the Razorpay script
@@ -129,17 +129,30 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
     try {
       setIsProcessing(true);
 
-      // Step 2️⃣ Create an order (from your backend)
-      // FIX: Ensure amount is an integer representing paise/cents for Razorpay.
-      const amountInPaise = Math.round(total); 
+      // Step 2️⃣ Create an order (from your backend)
+      const amountInPaise = Math.round(total); 
 
-      const { data } = await axios.post("https://myindiaventuresserver.vercel.app/miv/payments/create-order", {
-        amount: amountInPaise,
-        currency: "INR",
-      });
+      const orderData = {
+        amount: amountInPaise,
+        eventId: "68f26fb112206365cef1a067", // Default event ID - in real app, this would come from props/state
+        customer: {
+          name: customerName,
+          email: customerEmail,
+          phone: `${countryCode}${customerPhone}`,
+        },
+        participants: participants,
+        specialRequirements: {
+          dietary: "",
+          medical: "",
+          accessibility: "",
+          other: ""
+        }
+      };
 
-      if (!data.success) throw new Error("Failed to create order");
-      const { order } = data;
+      const { data } = await paymentService.createOrder(orderData);
+
+      if (!data.success) throw new Error("Failed to create order");
+      const { order, bookingId } = data.data;
 
       // Step 3️⃣ Razorpay options
       const options = {
@@ -150,32 +163,36 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
         description: booking.title,
         image: miv_logo,
         order_id: order.id,
-        handler: async function (response) {
-          try {
-            const verify = await axios.post("https://myindiaventuresserver.vercel.app/miv/payments/verify", response);
-            if (verify.data.success) {
-              setPaymentComplete(true);
-            } else {
-              alert("❌ Payment verification failed");
-            }
-          } catch (err) {
-            console.error("Verification failed:", err);
-            alert("Payment verification failed!");
-          }
-        },
+        handler: async function (response) {
+          try {
+            const verifyData = {
+              ...response,
+              bookingId: bookingId
+            };
+            const verify = await paymentService.verifyPayment(verifyData);
+            if (verify.success) {
+              setPaymentComplete(true);
+            } else {
+              alert("❌ Payment verification failed");
+            }
+          } catch (err) {
+            console.error("Verification failed:", err);
+            alert("Payment verification failed!");
+          }
+        },
         prefill: {
           name: customerName,
           email: customerEmail,
           contact: `${countryCode}${customerPhone}`,
         },
-        notes: {
-          booking_id: "MIV-2025-001247",
-          customer_name: customerName,
-          customer_email: customerEmail,
-          customer_phone: `${countryCode}${customerPhone}`,
-          participants: participants,
-          total_amount: Math.ceil(total).toLocaleString(),
-        },
+        notes: {
+          booking_id: bookingId,
+          customer_name: customerName,
+          customer_email: customerEmail,
+          customer_phone: `${countryCode}${customerPhone}`,
+          participants: participants,
+          total_amount: Math.ceil(total).toLocaleString(),
+        },
         theme: {
           color: "#38bdf8",
         },
