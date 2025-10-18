@@ -1,6 +1,5 @@
 import Event from '../models/eventSchema.js'
 import redis from '../cacheManager/redisClient.js'
-import { cleanEventData, cleanMultipleEventData } from '../utils/dataCleaner.js'
 
 // 🔹 Helper: Clear Redis cache whenever data changes
 const resetCache = async () => {
@@ -11,10 +10,7 @@ const resetCache = async () => {
 // ✅ Create a single event
 export const createEvent = async (req, res) => {
   try {
-    // Clean the event data to remove conflicting fields
-    const cleanedEventData = cleanEventData(req.body);
-
-    let event = await Event.create(cleanedEventData);
+    let event = await Event.create(req.body);
 
     // reset cache after insertion
     await resetCache();
@@ -37,10 +33,7 @@ export const createEvent = async (req, res) => {
 // ✅ Create multiple events
 export const createEvents = async (req, res) => {
   try {
-    // Clean all event data to remove conflicting fields
-    const cleanedEventsData = cleanMultipleEventData(req.body);
-
-    let events = await Event.insertMany(cleanedEventsData);
+    let events = await Event.insertMany(req.body);
 
     // reset cache after insertion
     await resetCache();
@@ -86,34 +79,6 @@ export const getAllEvents = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: `Failed to fetch all Events`,
-      error: err.message
-    });
-  }
-};
-
-// ✅ Get single event by ID
-export const getEventById = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    let event = await Event.findById(id);
-
-    if (!event) {
-      return res.status(404).json({
-        success: false,
-        message: "Event not found"
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: `Event fetched successfully`,
-      data: event
-    });
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: `Failed to fetch Event`,
       error: err.message
     });
   }

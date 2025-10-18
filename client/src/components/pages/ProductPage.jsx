@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -25,15 +25,9 @@ import {
   Info,
   AlertCircle,
   Phone,
-  Mail,
-  Sunrise, // Added for Itinerary clarity
-  Sunset, // Added for Itinerary clarity
-  Bus,
-  Loader2
+  Mail
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
-import { eventService } from '../../services/api';
-import { getImageSource, getGalleryImages, formatPrice, formatDate } from '../../utils/imageUtils';
 // Removed explicit imports for types (PageType, EventData)
 import koraigad01 from '../../assets/locations/koraigad01.png';
 import koraigad02 from '../../assets/locations/koraigad02.jpg';
@@ -42,71 +36,14 @@ import koraigad04 from '../../assets/locations/koraigad04.jpg';
 import koraigad05 from '../../assets/locations/koraigad05.png';
 
 // ProductPage component in pure JavaScript/JSX
-export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, eventId }) {
+export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [eventData, setEventData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const API_BASE_URL = "https://myindiaventuresserver.vercel.app/miv";
-
-  // Fetch event data from backend
-  useEffect(() => {
-    const fetchEventData = async () => {
-      if (eventId) {
-        try {
-          setIsLoading(true);
-          setError(null);
-          const response = await eventService.getEventById(eventId);
-          
-          if (response.success && response.data) {
-            setEventData(response.data);
-          } else {
-            throw new Error('Invalid response format');
-          }
-        } catch (err) {
-          console.error('Error fetching event:', err);
-          setError(err.message);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchEventData();
-  }, [eventId]);
-
-  // Transform backend event data to frontend format
-  const transformEventData = (backendEvent) => {
-    return {
-      id: backendEvent._id,
-      title: backendEvent.title,
-      category: backendEvent.category,
-      location: backendEvent.location,
-      duration: backendEvent.duration,
-      difficulty: backendEvent.difficulty,
-      price: formatPrice(backendEvent.price),
-      rating: backendEvent.rating,
-      reviews: backendEvent.reviews,
-      participants: backendEvent.participants.toString(),
-      nextDate: formatDate(backendEvent.nextDate),
-      image: getImageSource(backendEvent.image, koraigad01),
-      description: backendEvent.description,
-      highlights: backendEvent.highlights || [],
-      highlightsDescription: backendEvent.highlightsDescription || [],
-      itinerary: backendEvent.itinerary || [],
-      included: backendEvent.included || [],
-      notIncluded: backendEvent.notIncluded || [],
-      essentialInfo: backendEvent.essentialInfo || [],
-      galleryImages: backendEvent.galleryImages || []
-    };
-  };
-
-  // Default/fallback event (UPDATED ITINERARY AND ESSENTIAL INFO)
+  // If no event data, show a default/fallback event
   const defaultEvent = {
     id: 1,
-    title: "Koraigad Fort Trek & Lonavala Explorer", // Adjusted title
+    title: "Koraigad Fort Trek",
     category: "trekking",
     location: "Lonavala, Maharashtra",
     duration: "1 Day",
@@ -118,87 +55,50 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
     nextDate: "2025-11-16",
     image: koraigad01,
     description: "Embark on an exhilarating monsoon adventure that blends history, breathtaking vistas, and serene nature escapes! Join us as we explore the majestic Koraigad Fort, a historic sentinel offering panoramic views of the surrounding Western Ghats. Trek through lush green trails, discover ancient ruins, and immerse yourself in the rich legacy of the Maratha empire. But the adventure doesn't stop there! We'll also dive into the picturesque charm of Lonavala. Witness the dramatic landscape from the iconic Tiger Point, where clouds often float below, creating an ethereal spectacle. Marvel at the unique rock formation of Shivling Point, a natural wonder that inspires awe. Finally, we'll unwind and capture stunning photographs at the famous Bhushi Dam, enjoying its cascading waters and lively atmosphere. This trip is a perfect blend of trekking, sightseeing, and monsoon magic, designed for adventurers and nature lovers alike!",
-    highlights: ["Koraigad Fort Trek", "Tiger Point (Vaghjai Plateau)", "Shivling Point View", "Bhushi Dam Water Fun"],
-    highlightsDescription: ["Explore ancient fortifications, temples, and enjoy 360-degree views from the plateau.", "Witness incredible valley views, often shrouded in mystic fog.", "Observe the distinctive natural rock formation near the peak.", "Enjoy the gushing waters and vibrant atmosphere (seasonal)."],
+    highlights: ["Koraigad Fort Trek", "Tiger Point (Vaghjai Plateau)", "Shivling Point", "Bhushi Dam"],
+    highlightsDescription: ["Explore ancient fortifications, temples, and enjoy 360-degree views from the plateau.", "Witness incredible valley views, often shrouded in mystic fog", "Observe the distinctive natural rock formation", "Enjoy the gushing waters and vibrant atmosphere (seasonal)."],
   };
 
-  // Use fetched event data, passed event, or default event
-  const currentEvent = eventData ? transformEventData(eventData) : (event || defaultEvent);
+  const currentEvent = event || defaultEvent;
 
-  // Use backend gallery images if available, otherwise use default
-  const galleryImages = currentEvent.galleryImages && currentEvent.galleryImages.length > 0
-    ? getGalleryImages(currentEvent.galleryImages, [currentEvent.image, koraigad02, koraigad03, koraigad04, koraigad05])
-    : [currentEvent.image, koraigad02, koraigad03, koraigad04, koraigad05];
+  const galleryImages = [
+    currentEvent.image,
+    koraigad02,
+    koraigad03,
+    koraigad04,
+    koraigad05
+  ];
 
-  // --- ITINERARY: Use backend data if available, otherwise use default ---
-  const getItinerary = () => {
-    if (currentEvent.itinerary && currentEvent.itinerary.length > 0) {
-      return currentEvent.itinerary.map((item, index) => ({
-        day: item.day || index + 1,
-        title: item.title,
-        description: item.description,
-        icon: [Bus, Mountain, Camera, Sunset, Bus][index % 5] // Cycle through icons
-      }));
-    }
-    
-    // Default itinerary
-    return [
-      { day: 1, title: "Meeting & Journey to Base", icon: Bus, description: "Meet at the designated spot (e.g., Dadar/Thane) early morning. Depart for Koraigad base village via AC Traveller. Breakfast en route." },
-      { day: 2, title: "Koraigad Fort Ascent & Explore", icon: Mountain, description: "Reach the base village and start the trek to Koraigad Fort (approx. 1.5 hours one way). Explore the Koraidevi Temple, fortifications, and enjoy the panoramic plateau view." },
-      { day: 3, title: "Lonavala Sightseeing: Tiger Point & Shivling Point", icon: Camera, description: "Descend the fort and head towards Lonavala. Visit Tiger Point for dramatic valley views and a brief stop at Shivling Point to admire the unique rock formation." },
-      { day: 4, title: "Bhushi Dam & Lunch", icon: Sunset, description: "Enjoy the lively atmosphere and cascading waters at Bhushi Dam. Have lunch (not included) at a local restaurant. Some free time for local snacks." },
-      { day: 5, title: "Departure to City", icon: Bus, description: "Start the return journey to Mumbai/Pune in the late afternoon. Arrive back at the starting point by late evening, carrying memories of the Sahyadri adventure!" },
-    ];
-  };
+  const itinerary = [
+    { day: 1, title: "Arrival & Orientation", description: "Meet at Dadar, gear check, and welcome briefing. Get to know your fellow adventurers and guides." },
+    { day: 2, title: "Trek to First Camp", description: "Begin your journey with a scenic 8km trek through alpine meadows and forest trails." },
+    { day: 3, title: "Acclimatization Day", description: "Short hikes to help your body adjust to the altitude. Photography and nature walks." },
+    { day: 4, title: "Summit Push Begins", description: "Early morning start for the challenging ascent. Breathtaking views await." },
+    { day: 5, title: "Base Camp & Return", description: "Reach the base camp, celebrate, and begin descent to lower altitude." },
+  ];
 
-  const itinerary = getItinerary();
+  const included = [
+    "AC Traveller",
+    "Breakfast included",
+    "Male & Female Guide",
+    "Medical Kit & First Aid",
+    "Momentos",
+  ];
 
-  // --- ESSENTIAL INFO: Use backend data if available, otherwise use default ---
-  const getEssentialInfo = () => {
-    if (currentEvent.essentialInfo && currentEvent.essentialInfo.length > 0) {
-      return currentEvent.essentialInfo.map(item => ({
-        label: item.label,
-        value: item.value,
-        icon: [Award, Users, Calendar, Mountain][Math.floor(Math.random() * 4)] // Random icon assignment
-      }));
-    }
-    
-    // Default essential info
-    return [
-      { label: "Fitness Level", value: "Moderate Stamina Required", icon: Award },
-      { label: "Group Size", value: currentEvent.participants + " people", icon: Users },
-      { label: "Best Season", value: "Monsoon (June - Sep) for waterfalls & greenery", icon: Calendar },
-      { label: "Altitude", value: "Koraigad is ~920m (3,028ft)", icon: Mountain },
-    ];
-  };
+  const notIncluded = [
+    "Personal trekking gear (boots, backpack)",
+    "Travel insurance",
+    "Lunch",
+    "Tips for guides & staff",
+    "Any items not mentioned in inclusions"
+  ];
 
-  const essentialInfo = getEssentialInfo();
-  
-  // NOTE: The inclusion and exclusion lists were already somewhat suitable for a day trip,
-  // but a typical day trip usually excludes 'Lunch' (as seen in your list)
-
-  // Use backend data for included/notIncluded if available
-  const included = currentEvent.included && currentEvent.included.length > 0 
-    ? currentEvent.included 
-    : [
-        "AC Traveller Transportation (City to City)",
-        "Breakfast included",
-        "Male & Female Guide (Expert Trek Leaders)",
-        "Medical Kit & First Aid",
-        "Momentos/Certificates",
-        "Forest Entry Permits"
-      ];
-
-  const notIncluded = currentEvent.notIncluded && currentEvent.notIncluded.length > 0 
-    ? currentEvent.notIncluded 
-    : [
-        "Lunch and Dinner",
-        "Personal expenses & snacks",
-        "Travel insurance",
-        "Tips for guides & staff",
-        "Any items not mentioned in inclusions"
-      ];
-// --- END OF UPDATED DATA ---
+  const essentialInfo = [
+    { label: "Fitness Level", value: "Good physical fitness required", icon: Award },
+    { label: "Group Size", value: currentEvent.participants + " people", icon: Users },
+    { label: "Best Season", value: "March to June, Sept to Nov", icon: Calendar },
+    { label: "Altitude", value: "Up to 4,500m", icon: Mountain },
+  ];
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
@@ -213,39 +113,7 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
     <React.Fragment>
       <Header navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <div className="min-h-screen pt-16 bg-background">
-        
-        {/* Loading State */}
-        {isLoading && (
-          <div className="flex justify-center items-center py-20">
-            <div className="text-center">
-              <Loader2 className="h-12 w-12 animate-spin text-miv-cyan mx-auto mb-4" />
-              <h2 className="text-2xl font-semibold mb-2">Loading Event Details...</h2>
-              <p className="text-muted-foreground">Please wait while we fetch the latest information</p>
-            </div>
-          </div>
-        )}
-
-        {/* Error State */}
-        {error && !isLoading && (
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <div className="max-w-2xl mx-auto text-center">
-              <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-              <h2 className="text-2xl font-semibold mb-2">Failed to Load Event</h2>
-              <p className="text-muted-foreground mb-6">{error}</p>
-              <Button 
-                onClick={() => window.location.reload()} 
-                className="bg-miv-cyan hover:bg-miv-cyan/90"
-              >
-                Try Again
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Main Content - Only show when not loading and no error */}
-        {!isLoading && !error && (
-          <>
-            {/* Hero Section with Image Gallery */}
+        {/* Hero Section with Image Gallery */}
         <section className="py-8 bg-muted/30">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -400,7 +268,7 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                     <Button
                       size="lg"
                       className="w-full bg-miv-cyan hover:bg-miv-sky-blue text-white text-lg py-6 group"
-                      onClick={() => navigateToPage('payment')}
+                      onClick={() => navigateToPage("")}
                     >
                       Proceed to Payment
                       <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -452,10 +320,14 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p className="text-muted-foreground leading-relaxed">
-                      This adventure is a perfect blend of **history, trekking, and classic Lonavala sightseeing**. The Koraigad Fort trek offers a rewarding climb with panoramic views, making it an ideal choice for **beginners** and those looking for a quick nature escape from the city.
+                      Embark on an unforgettable journey through some of India's most spectacular landscapes.
+                      This carefully crafted adventure combines physical challenge with breathtaking natural beauty,
+                      offering you the chance to push your limits while experiencing the raw majesty of the wilderness.
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
-                      We've paired the historic trek with visits to the region's famous viewpoints—**Tiger Point** and **Shivling Point**—before concluding the day with the lively atmosphere of **Bhushi Dam**. Our expert guides ensure safety and share local knowledge, making your single day getaway both thrilling and enriching.
+                      Our expert guides bring years of experience in mountain safety and local knowledge, ensuring
+                      your adventure is both thrilling and secure. From sunrise vistas that paint the peaks in gold
+                      to starlit nights around the campfire, every moment is designed to create lasting memories.
                     </p>
                     <div className="grid md:grid-cols-3 gap-6 pt-6 border-t">
                       <div className="flex items-start gap-3">
@@ -463,8 +335,8 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                           <Shield className="h-5 w-5 text-miv-cyan" />
                         </div>
                         <div>
-                          <h4 className="font-semibold mb-1">Beginner Friendly</h4>
-                          <p className="text-sm text-muted-foreground">The Koraigad trail is well-defined and suitable for first-time trekkers.</p>
+                          <h4 className="font-semibold mb-1">Safety First</h4>
+                          <p className="text-sm text-muted-foreground">Certified guides, medical support, and comprehensive safety protocols</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
@@ -472,8 +344,8 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                           <Award className="h-5 w-5 text-miv-cyan" />
                         </div>
                         <div>
-                          <h4 className="font-semibold mb-1">Historical Immersion</h4>
-                          <p className="text-sm text-muted-foreground">Explore the ruins and temples of a 17th-century Maratha fort.</p>
+                          <h4 className="font-semibold mb-1">Expert Guides</h4>
+                          <p className="text-sm text-muted-foreground">Local experts with deep knowledge of terrain and culture</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
@@ -481,8 +353,8 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                           <Camera className="h-5 w-5 text-miv-cyan" />
                         </div>
                         <div>
-                          <h4 className="font-semibold mb-1">Monsoon Magic</h4>
-                          <p className="text-sm text-muted-foreground">Experience the Sahyadris at their greenest and the waterfalls at their peak.</p>
+                          <h4 className="font-semibold mb-1">Memorable Moments</h4>
+                          <p className="text-sm text-muted-foreground">Stunning photo opportunities and unique experiences</p>
                         </div>
                       </div>
                     </div>
@@ -491,36 +363,33 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
               </TabsContent>
 
               <TabsContent value="itinerary" className="space-y-4">
-                {itinerary.map((day, idx) => {
-                    const IconComponent = day.icon;
-                    return (
-                        <Card key={idx} className="hover:shadow-lg transition-shadow">
-                          <CardContent className="p-6">
-                            <div className="flex items-start gap-4">
-                              <div className="flex-shrink-0">
-                                <div className="w-12 h-12 bg-miv-cyan rounded-full flex items-center justify-center">
-                                  <IconComponent className="h-6 w-6 text-white" />
-                                </div>
-                              </div>
-                              <div className="flex-1">
-                                <h3 className="font-bold text-lg mb-2">{day.title}</h3>
-                                <p className="text-muted-foreground">{day.description}</p>
-                              </div>
-                              <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                            </div>
-                          </CardContent>
-                        </Card>
-                      );
-                    }
-                )}
+                {itinerary.map((day, idx) => (
+                  <Card key={idx} className="hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0">
+                          <div className="w-12 h-12 bg-miv-cyan rounded-full flex items-center justify-center">
+                            <span className="text-white font-bold">Day {day.day}</span>
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-lg mb-2">{day.title}</h3>
+                          <p className="text-muted-foreground">{day.description}</p>
+                        </div>
+                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
                 <Card className="bg-miv-cyan/5 border-miv-cyan/30">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-3">
                       <Info className="h-5 w-5 text-miv-cyan flex-shrink-0 mt-1" />
                       <div>
-                        <h4 className="font-semibold mb-2">Important Note on Timing</h4>
+                        <h4 className="font-semibold mb-2">Please Note</h4>
                         <p className="text-sm text-muted-foreground">
-                          As this is a 1-day trip, all timings are subject to change based on traffic conditions, group speed during the trek, and crowds at the sightseeing points, especially during the peak monsoon weekend.
+                          This itinerary is flexible and may be adjusted based on weather conditions, group fitness levels,
+                          and local circumstances. Your safety and enjoyment are our top priorities.
                         </p>
                       </div>
                     </div>
@@ -601,14 +470,13 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                     <CardContent>
                       <ul className="space-y-2">
                         {[
-                          'Trekking shoes (mandatory, with good grip)',
-                          'Rainwear/Windcheater (especially for monsoon)',
-                          'At least 2 litres of water',
-                          'Personal medication & a small First Aid Kit',
-                          'Energy bars/snacks for the trek',
-                          'ID Proof (Aadhaar/Driving License)',
-                          'Camera & Power Bank (optional but recommended)',
-                          'Extra pair of clothes (for changing after the dam visit)'
+                          'Comfortable trekking boots',
+                          'Warm clothing & layers',
+                          'Personal medication',
+                          'Water bottle & snacks',
+                          'Sunscreen & sunglasses',
+                          'Personal identification',
+                          'Cash for personal expenses'
                         ].map((item, idx) => (
                           <li key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
                             <div className="w-1.5 h-1.5 bg-miv-cyan rounded-full"></div>
@@ -631,11 +499,11 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3">
                         <a href="tel:+917021014315">
-                             <Button variant="secondary" className="flex items-center gap-2">
-                                 <Phone className="h-4 w-4" />
-                                 Call Us
-                             </Button>
-                         </a>
+                            <Button variant="secondary" className="flex items-center gap-2">
+                                <Phone className="h-4 w-4" />
+                                Call Us
+                            </Button>
+                        </a>
 
                         <Button variant="outline" className="flex items-center gap-2 bg-transparent border-white text-white hover:bg-white/10">
                           <Mail className="h-4 w-4" />
@@ -664,7 +532,7 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
                 <Button
                   size="lg"
                   className="bg-white text-miv-navy hover:bg-white/90 px-8 py-6 text-lg group"
-                  onClick={() => navigateToPage(`payment/${currentEvent.id}`)}
+                  onClick={() => navigateToPage('payment')}
                 >
                   Book Now - {currentEvent.price}
                   <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -741,8 +609,6 @@ export function ProductPage({ navigateToPage, event, darkMode, toggleDarkMode, e
             </div>
           </div>
         </section>
-          </>
-        )}
       </div>
       <Footer navigateToPage={navigateToPage} />
     </React.Fragment>
