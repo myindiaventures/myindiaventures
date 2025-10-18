@@ -1,6 +1,8 @@
+// src/pages/ProductPage.jsx
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader } from '../ui/card';
+import { useParams } from 'react-router-dom';
 import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Header } from '../layout/Header';
@@ -29,101 +31,66 @@ import {
   Loader2 // Import for loading state
 } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWIthFallback';
-// Image imports (kept for gallery demonstration, though ideally these would be URLs)
 import koraigad01 from '../../assets/locations/koraigad01.png';
 import koraigad02 from '../../assets/locations/koraigad02.jpg';
 import koraigad03 from '../../assets/locations/koraigad03.jpg';
 import koraigad04 from '../../assets/locations/koraigad04.jpg';
 import koraigad05 from '../../assets/locations/koraigad05.png';
 
-// --- MOCK API DATA AND FETCHING LOGIC ---
 
-// Mock data structure matching your component's needs
-const allEventsData = {
-  'trek-koraigad': { // Use a slug or eventId string
-    id: 'trek-koraigad',
-    title: "Koraigad Fort Trek",
-    category: "trekking",
-    location: "Lonavala, Maharashtra",
-    duration: "1 Day",
-    difficulty: "Beginner",
-    price: "₹1,199",
-    rating: 4.9,
-    reviews: 156,
-    participants: "18",
-    nextDate: "2025-11-16",
-    image: koraigad01,
-    gallery: [koraigad01, koraigad02, koraigad03, koraigad04, koraigad05],
-    description: "Embark on an exhilarating monsoon adventure that blends history, breathtaking vistas, and serene nature escapes! Join us as we explore the majestic Koraigad Fort, a historic sentinel offering panoramic views of the surrounding Western Ghats. Trek through lush green trails, discover ancient ruins, and immerse yourself in the rich legacy of the Maratha empire. But the adventure doesn't stop there! We'll also dive into the picturesque charm of Lonavala. Witness the dramatic landscape from the iconic Tiger Point, where clouds often float below, creating an ethereal spectacle. Marvel at the unique rock formation of Shivling Point, a natural wonder that inspires awe. Finally, we'll unwind and capture stunning photographs at the famous Bhushi Dam, enjoying its cascading waters and lively atmosphere. This trip is a perfect blend of trekking, sightseeing, and monsoon magic, designed for adventurers and nature lovers alike!",
-    highlights: ["Koraigad Fort Trek", "Tiger Point (Vaghjai Plateau)", "Shivling Point", "Bhushi Dam"],
-    highlightsDescription: ["Explore ancient fortifications, temples, and enjoy 360-degree views from the plateau.", "Witness incredible valley views, often shrouded in mystic fog", "Observe the distinctive natural rock formation", "Enjoy the gushing waters and vibrant atmosphere (seasonal)."],
-    itinerary: [
-      { day: 1, title: "Meetup & Trek", description: "Meet at Dadar, travel to base village, begin the Koraigad climb. Explore the fort and enjoy the sunset." },
-      { day: 2, title: "Sightseeing & Departure", description: "Visit Tiger Point, Shivling Point, and Bhushi Dam. Start the return journey to Mumbai/Pune." },
-    ],
-    included: [
-      "AC Traveller for transport",
-      "Breakfast and Evening Tea",
-      "Male & Female Trek Guide",
-      "Medical Kit & First Aid",
-      "Momentos/Certificates",
-      "Fort Entry Fees",
-    ],
-    notIncluded: [
-      "Personal trekking gear (boots, backpack)",
-      "Travel insurance",
-      "Lunch and Dinner",
-      "Tips for guides & staff",
-      "Any items not mentioned in inclusions"
-    ],
-    essentialInfo: [
-      { label: "Fitness Level", value: "Good physical fitness required", icon: Award },
-      { label: "Group Size", value: "18 people", icon: Users },
-      { label: "Best Season", value: "Monsoon and Winter", icon: Calendar },
-      { label: "Altitude", value: "920m (3,020 ft)", icon: Mountain },
-    ],
-  },
-  // You would add more event data here
-};
+const API_BASE = "https://myindiaventuresserver.vercel.app/miv/events";
 
-// Mock function to simulate fetching data from a backend
-const fetchEventById = (id) => {
-  return new Promise((resolve, reject) => {
-    // Simulate network delay
-    setTimeout(() => {
-      const event = allEventsData[id];
-      if (event) {
-        resolve(event);
-      } else {
-        // Use the event ID from props if it's the only one provided
-        if (id === '1') {
-            resolve(allEventsData['trek-koraigad']);
-        } else {
-            reject(new Error(`Event with ID ${id} not found`));
-        }
-      }
-    }, 1000); // 1 second delay
-  });
-};
+// Mock data (Since the original code uses these in TabsContent, they must be defined)
+const itinerary = [
+  { day: 1, title: 'Mumbai Pickup & Base Village Trek', description: 'Meet the team in Mumbai, travel to the base village, start the ascent in the evening.' },
+  { day: 2, title: 'Summit Sunrise & Return Journey', description: 'Witness the breathtaking sunrise from the fort, explore ancient ruins, and begin the descent back to Mumbai.' }
+];
 
-// --- REFACTORED PRODUCT PAGE COMPONENT ---
+const included = [
+  'Transportation from Mumbai to Base Village and back',
+  'Morning Tea & Breakfast (Day 2)',
+  'Certified First-Aid Qualified Tour Leader',
+  'All necessary permits and entry fees'
+];
 
-/**
- * ProductPage Component
- * @param {object} props
- * @param {string | number} props.eventId - The ID of the event to fetch and display.
- * @param {function} props.navigateToPage - Function to handle page navigation.
- * @param {boolean} props.darkMode - Current dark mode state.
- * @param {function} props.toggleDarkMode - Function to toggle dark mode.
- */
-export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode }) {
+const notIncluded = [
+  'Meals during travel (Lunch/Dinner)',
+  'Personal expenses (water bottles, snacks, etc.)',
+  'Any medical or emergency evacuation costs',
+  'Personal Porter/Luggage Carriers'
+];
+
+const essentialInfo = [
+  { icon: Mountain, label: 'Trek Type', value: 'Hill Fort Trek' },
+  { icon: Users, label: 'Minimum Age', value: '10+' },
+  { icon: Clock, label: 'Reporting Time', value: '5:00 AM, Day 1' },
+  { icon: Calendar, label: 'Best Season', value: 'Post-Monsoon to Winter' },
+];
+
+// Helper function to get Tailwind CSS classes for difficulty badge
+function getDifficultyColor(difficulty) {
+  switch (difficulty.toLowerCase()) {
+    case 'easy':
+      return 'bg-green-500/10 text-green-600 border-green-500/20';
+    case 'moderate':
+      return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20';
+    case 'challenging':
+      return 'bg-red-500/10 text-red-600 border-red-500/20';
+    default:
+      return 'bg-gray-500/10 text-gray-600 border-gray-500/20';
+  }
+}
+
+export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
+  const { eventId } = useParams(); // ✅ Get dynamic ID from URL
   const [eventData, setEventData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // 🐛 FIX 1 & 2: Define selectedImage and isFavorited state variables
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFavorited, setIsFavorited] = useState(false);
 
-  // 1. Fetch data on component mount or eventId change
   useEffect(() => {
     if (!eventId) {
       setError("No event ID provided in the URL.");
@@ -131,67 +98,67 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
       return;
     }
 
-    setIsLoading(true);
-    setError(null);
-    setEventData(null); // Clear previous data
+    async function fetchEvent() {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`${API_BASE}/getEvent/id/${eventId}`);
+        const result = await response.json();
 
-    // In a real application, replace this with a call to your actual API (e.g., axios.get(`/api/events/${eventId}`))
-    fetchEventById(eventId)
-      .then(data => {
-        setEventData(data);
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || "Failed to fetch event details.");
+        }
+
+        setEventData(result.data);
+      } catch (err) {
+        console.error("Error fetching event:", err);
+        setError(err.message);
+      } finally {
         setIsLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to fetch event:", err);
-        setError("We couldn't load the event details. Please try again later.");
-        setIsLoading(false);
-      });
+      }
+    }
 
-  }, [eventId]); // Re-run effect if eventId changes (e.g., dynamic routing)
+    fetchEvent();
+  }, [eventId]);
 
-  // 2. Conditional Rendering for Loading and Error States
+  // 🌀 Loading
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center pt-16 bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-10 w-10 animate-spin text-miv-cyan" />
         <p className="ml-4 text-xl text-muted-foreground">Loading Adventure...</p>
       </div>
     );
   }
 
+  // ⚠️ Error
   if (error) {
     return (
-      <div className="min-h-screen pt-16 bg-background flex flex-col items-center justify-center p-8">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background p-8">
         <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
         <h1 className="text-3xl font-bold mb-2">Error Loading Event</h1>
         <p className="text-muted-foreground text-center max-w-lg">{error}</p>
         <Button onClick={() => navigateToPage('home')} className="mt-6 bg-miv-cyan hover:bg-miv-sky-blue">
-            Go Back to Home
+          Go Back to Home
         </Button>
       </div>
     );
   }
 
-  // 3. Use eventData for rendering
+  // 🧩 Render full details using eventData
   const currentEvent = eventData;
-  const galleryImages = currentEvent.gallery || [currentEvent.image]; // Use dynamic gallery or fallback
-  const itinerary = currentEvent.itinerary || [];
-  const included = currentEvent.included || [];
-  const notIncluded = currentEvent.notIncluded || [];
-  const essentialInfo = currentEvent.essentialInfo || [];
+  // If eventData is successfully fetched and doesn't have a gallery, use the main image, or fallback to an empty array for safer mapping.
+  const galleryImages = currentEvent?.gallery?.length ? currentEvent.gallery : (currentEvent?.image ? [currentEvent.image] : []);
 
-  const getDifficultyColor = (difficulty) => {
-    switch (difficulty) {
-      case 'Beginner': return 'bg-green-500/10 text-green-600 border-green-500/20';
-      case 'Intermediate': return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20';
-      case 'Advance': return 'bg-red-500/10 text-red-600 border-red-500/20';
-      default: return 'bg-gray-500/10 text-gray-600 border-gray-500/20';
-    }
-  };
+  // 🐛 FIX 3: getDifficultyColor must be defined either globally (as done above) or within ProductPage
+  // The function is now defined globally before the component.
+
+  // The rest of the component's JSX remains the same, but will now work
+  // because selectedImage, setSelectedImage, isFavorited, setIsFavorited, and getDifficultyColor are defined.
 
   return (
-    <React.Fragment>
+    <>
       <Header navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      {/* your existing rendering layout remains exactly the same */}
       <div className="min-h-screen pt-16 bg-background">
         {/* Hero Section with Image Gallery */}
         <section className="py-8 bg-muted/30">
@@ -200,6 +167,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
               {/* Image Gallery */}
               <div className="space-y-4">
                 <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                  {/* Access selectedImage here, which is now state */}
                   <ImageWithFallback
                     src={galleryImages[selectedImage]}
                     alt={currentEvent.title}
@@ -249,6 +217,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
                     <Badge variant="outline" className="text-miv-cyan border-miv-cyan">
                       {currentEvent.category.replace('-', ' ').toUpperCase()}
                     </Badge>
+                    {/* Call the defined helper function */}
                     <Badge className={`${getDifficultyColor(currentEvent.difficulty)} border`}>
                       {currentEvent.difficulty}
                     </Badge>
@@ -338,7 +307,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
                     <div className="flex items-center justify-between mb-4">
                       <div>
                         <p className="text-sm text-muted-foreground mb-1">Starting from</p>
-                        <p className="text-4xl font-bold text-miv-cyan">{currentEvent.price}</p>
+                        <p className="text-4xl font-bold text-miv-cyan">₹{currentEvent.price}</p>
                         <p className="text-sm text-muted-foreground">per person</p>
                       </div>
                       <div className="text-right">
@@ -352,7 +321,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
                     <Button
                       size="lg"
                       className="w-full bg-miv-cyan hover:bg-miv-sky-blue text-white text-lg py-6 group"
-                      onClick={() => navigateToPage(`payment/${currentEvent.id}`)} 
+                      onClick={() => navigateToPage(`payment/${eventId}`)} 
                     >
                       Proceed to Payment
                       <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -442,6 +411,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
               </TabsContent>
 
               <TabsContent value="itinerary" className="space-y-4">
+                {/* itinerary must be defined for this to work */}
                 {itinerary.map((day, idx) => (
                   <Card key={idx} className="hover:shadow-lg transition-shadow">
                     <CardContent className="p-6">
@@ -486,6 +456,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
                       </h3>
                     </CardHeader>
                     <CardContent>
+                      {/* included must be defined for this to work */}
                       <ul className="space-y-3">
                         {included.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-3">
@@ -505,6 +476,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
                       </h3>
                     </CardHeader>
                     <CardContent>
+                      {/* notIncluded must be defined for this to work */}
                       <ul className="space-y-3">
                         {notIncluded.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-3">
@@ -525,6 +497,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
                       <h3 className="font-bold text-xl">Essential Information</h3>
                     </CardHeader>
                     <CardContent className="space-y-4">
+                      {/* essentialInfo must be defined for this to work */}
                       {essentialInfo.map((info, idx) => {
                         const IconComponent = info.icon;
                         return (
@@ -639,8 +612,7 @@ export function ProductPage({ eventId, navigateToPage, darkMode, toggleDarkMode 
         </section>
       </div>
       <Footer navigateToPage={navigateToPage} />
-    </React.Fragment>
+
+    </>
   );
 }
-
-// NOTE: The 'Similar Adventures' section remains static as the data fetching for related events is outside the scope of the main request.

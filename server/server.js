@@ -6,6 +6,7 @@ import { connectDB } from "./services/eventConnection.js";
 import statsRouter from "./routers/statsRouter.js";
 import eventsRouter from "./routers/eventRouter.js";
 import paymentRouter from "./routers/paymentRouter.js";
+import bookingRouter from "./routers/bookingRouter.js";
 
 const app = express();
 app.use(express.json())
@@ -17,6 +18,7 @@ await connectAllClusters();
 app.use("/miv", statsRouter);
 app.use("/miv/events", eventsRouter);
 app.use("/miv/payments", paymentRouter);
+app.use("/miv/bookings", bookingRouter);
 
 export default app;
 // app.listen(5000, () => {
