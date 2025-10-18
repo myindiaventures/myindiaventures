@@ -4,6 +4,12 @@ import Payment from "../models/paymentSchema.js";
 import Booking from "../models/bookingSchema.js";
 import Event from "../models/eventSchema.js";
 
+// Validate Razorpay configuration
+if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+    console.error("❌ Razorpay configuration missing!");
+    console.error("Please set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET environment variables");
+}
+
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
@@ -12,6 +18,14 @@ const razorpay = new Razorpay({
 // -------------------- Create Order --------------------
 export const createOrder = async (req, res) => {
     try {
+        // Check Razorpay configuration
+        if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+            return res.status(500).json({
+                success: false,
+                message: "Payment service configuration error. Please contact support."
+            });
+        }
+
         const { 
             amount, 
             eventId, 
@@ -19,6 +33,8 @@ export const createOrder = async (req, res) => {
             participants = 1,
             specialRequirements = {}
         } = req.body;
+
+        console.log("Creating order with data:", { amount, eventId, customer, participants });
 
         // Validate required fields
         if (!amount || !eventId || !customer?.name || !customer?.email || !customer?.phone) {
@@ -42,7 +58,7 @@ export const createOrder = async (req, res) => {
 
         // Create Razorpay order
         const options = {
-            amount: amount * 100, // Razorpay works in paise
+            amount: amount, // Amount is already in paise from frontend
             currency: "INR",
             receipt: `order_${bookingId}_${Date.now()}`,
             notes: {
@@ -113,12 +129,22 @@ export const createOrder = async (req, res) => {
 // -------------------- Verify Payment --------------------
 export const verifyPayment = async (req, res) => {
     try {
+        // Check Razorpay configuration
+        if (!process.env.RAZORPAY_KEY_SECRET) {
+            return res.status(500).json({
+                success: false,
+                message: "Payment service configuration error. Please contact support."
+            });
+        }
+
         const { 
             razorpay_order_id, 
             razorpay_payment_id, 
             razorpay_signature,
             bookingId 
         } = req.body;
+
+        console.log("Verifying payment with data:", { razorpay_order_id, razorpay_payment_id, bookingId });
 
         if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !bookingId) {
             return res.status(400).json({ 
