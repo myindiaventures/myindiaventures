@@ -39,14 +39,11 @@ export const getBookingById = async (req, res) => {
 export const createBooking = async (req, res) => {
   try {
     // Auto-generate bookingId if not provided
-    const bookingId =
-      req.body.bookingId ||
-      `MIV-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 
     const booking = new Booking({
-      bookingId,
+      bookingId: bookingId,
       name: req.body.name,
-      phoneNumber: req.body.phoneNumber,
+      phone: req.body.phone,
       email: req.body.email,
       eventName: req.body.eventName,
       eventId: req.body.eventId,

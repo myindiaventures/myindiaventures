@@ -30,7 +30,8 @@ const bookingSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: true,
+      required: [true, "Phone number is required"],
+      match: [/^\+?\d{7,15}$/, "Invalid phone number format"],
     },
     email: {
       type: String,
