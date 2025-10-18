@@ -29,6 +29,41 @@ export const createEvent = async (req, res) => {
   }
 };
 
+export const getEventById = async (req, res) => {
+  try {
+    const { id } = req.params; // Expecting the ID in the route parameter
+
+    let event = await Event.findById(id);
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found"
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Event fetched successfully by ID`,
+      data: event
+    });
+  } catch (err) {
+    // A common error here is a CastError (invalid MongoDB ID format)
+    if (err.name === 'CastError') {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid Event ID format`,
+        error: err.message
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: `Failed to fetch Event by ID`,
+      error: err.message
+    });
+  }
+};
 
 // ✅ Create multiple events
 export const createEvents = async (req, res) => {
