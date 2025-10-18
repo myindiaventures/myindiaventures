@@ -203,7 +203,7 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
 
                 // 3️⃣ Send Booking to Backend
                 const saveBooking = await axios.post(
-                    "https://myindiaventuresserver.vercel.app/miv/bookings",
+                    "https://myindiaventuresserver.vercel.app/miv/bookings/create-booking",
                     bookingData
                 );
 
