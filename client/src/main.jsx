@@ -8,8 +8,8 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 createRoot(document.getElementById('root')).render(
   <Auth0Provider
-    domain={import.meta.env.VITE_AUTH0_DOMAIN || `E1z9TPtER4ARK51pj5v1MyxrKisHY9oQ`}
-    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID || `Mu6p4bhY_u7Z48ithk4OQW7YV_0Prnm3T9d_BvMsZNdKJH7UNGQfWt52AlMOvcSY`}
+    domain={import.meta.env.VITE_AUTH0_DOMAIN || `dev-kqbbysra2z1ywlzm.us.auth0.com`}
+    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID || `E1z9TPtER4ARK51pj5v1MyxrKisHY9oQ`}
     authorizationParams={{
       redirect_uri: window.location.origin,
     }}
