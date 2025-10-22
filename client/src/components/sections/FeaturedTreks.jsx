@@ -12,6 +12,7 @@ const API_URL = "https://myindiaventuresserver.vercel.app/miv/events/getAllEvent
 // NOTE: You'll need a mechanism to load images based on the 'image' string field from the API.
 // For this example, we'll use a placeholder/generic image for simplicity if the full path isn't known.
 const IMAGE_BASE_PATH = '../../assets/locations/'; 
+import koraigad01 from '../../assets/locations/koraigad01.jpg';
 
 
 export function FeaturedTreks({ navigateToPage }) {
@@ -52,6 +53,7 @@ export function FeaturedTreks({ navigateToPage }) {
                     featured: index === 0, 
                     // Map icon string to Lucide component if necessary (e.g., if 'Mountain' is a string)
                     icon: event.icon === 'Mountain' ? Mountain : TrendingUp, 
+                    image: event.image === 'koraigad01' ? koraigad01 : null // Placeholder logic for image
                 }));
 
                 setTreks(transformedEvents);

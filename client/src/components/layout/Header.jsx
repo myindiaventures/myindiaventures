@@ -16,7 +16,8 @@ import miv_logo from '../../assets/logo/miv_brand_logo.webp';
 
 export function Header({ darkMode, toggleDarkMode, currentPage }) {
   const { user, isAuthenticated, loginWithPopup, logout, isLoading } = useAuth0();
-
+  
+  
   const navItems = [
     { name: 'Home', page: '' },
     { name: 'Events', page: 'events' },

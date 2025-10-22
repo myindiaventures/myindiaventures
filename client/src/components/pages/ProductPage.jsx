@@ -28,43 +28,105 @@ import {
   AlertCircle,
   Phone,
   Mail,
-  Loader2 // Import for loading state
+  Loader2,
+  TrendingUp 
 } from 'lucide-react';
-import { ImageWithFallback } from '../figma/ImageWIthFallback';
-import koraigad01 from '../../assets/locations/koraigad01.png';
+// Assuming ImageWithFallback handles broken URLs gracefully
+import { ImageWithFallback } from '../figma/ImageWIthFallback'; 
+
+// 1. IMPORT ALL LOCAL ASSETS HERE
+import koraigad01 from '../../assets/locations/koraigad01.jpg';
 import koraigad02 from '../../assets/locations/koraigad02.jpg';
 import koraigad03 from '../../assets/locations/koraigad03.jpg';
 import koraigad04 from '../../assets/locations/koraigad04.jpg';
 import koraigad05 from '../../assets/locations/koraigad05.png';
 
+// --- Configuration and Mock Data ---
 
 const API_BASE = "https://myindiaventuresserver.vercel.app/miv/events";
 
-// Mock data (Since the original code uses these in TabsContent, they must be defined)
+// Helper function to map string image name to actual imported asset or return the string as a URL
+function getImageSource(sourceString) {
+    if (!sourceString) return null;
+
+    // 1. Check for a full URL (likely from backend)
+    if (typeof sourceString === 'string' && (sourceString.startsWith('http') || sourceString.startsWith('/'))) {
+        return sourceString;
+    }
+    
+    // 2. Check for local asset string match
+    switch (sourceString) {
+        case 'koraigad01': return koraigad01;
+        case 'koraigad02': return koraigad02;
+        case 'koraigad03': return koraigad03;
+        case 'koraigad04': return koraigad04;
+        case 'koraigad05': return koraigad05;
+        // If it was imported directly (e.g., from localMockGallery array) it is already the correct source,
+        // so we return it directly. This handles the case where sourceString is an actual imported module path.
+        default: 
+            return sourceString;
+    }
+}
+
+// Mock data (Assuming this is the structure the API might return)
 const itinerary = [
   { day: 1, title: 'Mumbai Pickup & Base Village Trek', description: 'Meet the team in Mumbai, travel to the base village, start the ascent in the evening.' },
   { day: 2, title: 'Summit Sunrise & Return Journey', description: 'Witness the breathtaking sunrise from the fort, explore ancient ruins, and begin the descent back to Mumbai.' }
 ];
-
 const included = [
   'Transportation from Mumbai to Base Village and back',
   'Morning Tea & Breakfast (Day 2)',
   'Certified First-Aid Qualified Tour Leader',
   'All necessary permits and entry fees'
 ];
-
 const notIncluded = [
   'Meals during travel (Lunch/Dinner)',
   'Personal expenses (water bottles, snacks, etc.)',
   'Any medical or emergency evacuation costs',
   'Personal Porter/Luggage Carriers'
 ];
-
 const essentialInfo = [
   { icon: Mountain, label: 'Trek Type', value: 'Hill Fort Trek' },
   { icon: Users, label: 'Minimum Age', value: '10+' },
   { icon: Clock, label: 'Reporting Time', value: '5:00 AM, Day 1' },
   { icon: Calendar, label: 'Best Season', value: 'Post-Monsoon to Winter' },
+];
+
+// Mock data for "You Might Also Like"
+const similarAdventuresMock = [
+  {
+    id: '101',
+    title: 'Rajgad Fort Trek',
+    location: 'Pune',
+    price: '999',
+    difficulty: 'Challenging',
+    rating: 4.8,
+    icon: 'Mountain',
+    image: 'koraigad02', // Local image string
+    duration: '2 Days'
+  },
+  {
+    id: '102',
+    title: 'Kundalika Rafting',
+    location: 'Kolad',
+    price: '1800',
+    difficulty: 'Moderate',
+    rating: 4.5,
+    icon: 'TrendingUp', 
+    image: 'koraigad04',
+    duration: '1 Day'
+  },
+  {
+    id: '103',
+    title: 'Harishchandragad',
+    location: 'Malshej',
+    price: '1500',
+    difficulty: 'Hard',
+    rating: 4.9,
+    icon: 'Mountain',
+    image: 'koraigad05',
+    duration: '2 Days'
+  },
 ];
 
 // Helper function to get Tailwind CSS classes for difficulty badge
@@ -75,19 +137,30 @@ function getDifficultyColor(difficulty) {
     case 'moderate':
       return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20';
     case 'challenging':
+    case 'hard':
       return 'bg-red-500/10 text-red-600 border-red-500/20';
     default:
       return 'bg-gray-500/10 text-gray-600 border-gray-500/20';
   }
 }
 
+// Fallback gallery using local imports (These are already resolved paths/URLs)
+const localMockGallery = [
+  koraigad01, // Actual image path/URL from the import
+  koraigad02,
+  koraigad03,
+  koraigad04,
+  koraigad05,
+];
+
+
+// --- Component Definition ---
+
 export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
-  const { eventId } = useParams(); // ✅ Get dynamic ID from URL
+  const { eventId } = useParams(); 
   const [eventData, setEventData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // 🐛 FIX 1 & 2: Define selectedImage and isFavorited state variables
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFavorited, setIsFavorited] = useState(false);
 
@@ -120,7 +193,6 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
     fetchEvent();
   }, [eventId]);
 
-  // 🌀 Loading
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -130,7 +202,6 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
     );
   }
 
-  // ⚠️ Error
   if (error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-background p-8">
@@ -144,21 +215,24 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
     );
   }
 
-  // 🧩 Render full details using eventData
   const currentEvent = eventData;
-  // If eventData is successfully fetched and doesn't have a gallery, use the main image, or fallback to an empty array for safer mapping.
-  const galleryImages = currentEvent?.gallery?.length ? currentEvent.gallery : (currentEvent?.image ? [currentEvent.image] : []);
+  
+  // 💥 FIX: Consolidate gallery images correctly.
+  // apiGalleryStrings will contain 'koraigad01' or 'http://full.url/image.jpg'
+  const apiGalleryStrings = currentEvent?.gallery?.length 
+    ? currentEvent.gallery 
+    : (currentEvent?.image ? [currentEvent.image] : []);
+  
+  // If API returned image strings, use those (they will be resolved by getImageSource).
+  // If API returned NO image strings, fall back to the array of imported local assets.
+  const gallerySources = apiGalleryStrings.length > 0 
+    ? apiGalleryStrings 
+    : localMockGallery;
 
-  // 🐛 FIX 3: getDifficultyColor must be defined either globally (as done above) or within ProductPage
-  // The function is now defined globally before the component.
-
-  // The rest of the component's JSX remains the same, but will now work
-  // because selectedImage, setSelectedImage, isFavorited, setIsFavorited, and getDifficultyColor are defined.
 
   return (
     <>
       <Header navigateToPage={navigateToPage} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      {/* your existing rendering layout remains exactly the same */}
       <div className="min-h-screen pt-16 bg-background">
         {/* Hero Section with Image Gallery */}
         <section className="py-8 bg-muted/30">
@@ -167,9 +241,9 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
               {/* Image Gallery */}
               <div className="space-y-4">
                 <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                  {/* Access selectedImage here, which is now state */}
+                  {/* Main Image: Resolve the source before passing to ImageWithFallback */}
                   <ImageWithFallback
-                    src={galleryImages[selectedImage]}
+                    src={getImageSource(gallerySources[selectedImage])} 
                     alt={currentEvent.title}
                     className="w-full h-96 object-cover"
                   />
@@ -191,8 +265,9 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                     </Button>
                   </div>
                 </div>
-                <div className="grid grid-cols-5 gap-3"> {/* Increased to 5 for the images in mock data */}
-                  {galleryImages.map((img, idx) => (
+                {/* Thumbnail Gallery */}
+                <div className="grid grid-cols-5 gap-3">
+                  {gallerySources.map((source, idx) => (
                     <div
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
@@ -200,8 +275,9 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                         selectedImage === idx ? 'ring-2 ring-miv-cyan' : 'opacity-60 hover:opacity-100'
                       }`}
                     >
+                      {/* Thumbnail Image: Resolve the source before passing */}
                       <ImageWithFallback
-                        src={img}
+                        src={getImageSource(source)}
                         alt={`Gallery ${idx + 1}`}
                         className="w-full h-20 object-cover"
                       />
@@ -210,14 +286,13 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                 </div>
               </div>
 
-              {/* Event Details */}
+              {/* Event Details (Rest of the component remains the same) */}
               <div className="space-y-6">
                 <div>
                   <div className="flex items-center gap-2 mb-3">
                     <Badge variant="outline" className="text-miv-cyan border-miv-cyan">
                       {currentEvent.category.replace('-', ' ').toUpperCase()}
                     </Badge>
-                    {/* Call the defined helper function */}
                     <Badge className={`${getDifficultyColor(currentEvent.difficulty)} border`}>
                       {currentEvent.difficulty}
                     </Badge>
@@ -241,7 +316,7 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                   </div>
                 </div>
 
-                {/* Quick Info Cards - Data from essentialInfo or custom fields */}
+                {/* Quick Info Cards */}
                 <div className="grid grid-cols-2 gap-4">
                   {/* Duration Card */}
                   <Card className="border-miv-cyan/20">
@@ -285,7 +360,7 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                       </div>
                     </CardContent>
                   </Card>
-                  {/* Availability Card (Hardcoded, would be dynamic) */}
+                  {/* Availability Card */}
                   <Card className="border-miv-cyan/20">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3">
@@ -411,7 +486,6 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
               </TabsContent>
 
               <TabsContent value="itinerary" className="space-y-4">
-                {/* itinerary must be defined for this to work */}
                 {itinerary.map((day, idx) => (
                   <Card key={idx} className="hover:shadow-lg transition-shadow">
                     <CardContent className="p-6">
@@ -456,7 +530,6 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                       </h3>
                     </CardHeader>
                     <CardContent>
-                      {/* included must be defined for this to work */}
                       <ul className="space-y-3">
                         {included.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-3">
@@ -476,7 +549,6 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                       </h3>
                     </CardHeader>
                     <CardContent>
-                      {/* notIncluded must be defined for this to work */}
                       <ul className="space-y-3">
                         {notIncluded.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-3">
@@ -497,7 +569,6 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                       <h3 className="font-bold text-xl">Essential Information</h3>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      {/* essentialInfo must be defined for this to work */}
                       {essentialInfo.map((info, idx) => {
                         const IconComponent = info.icon;
                         return (
@@ -552,8 +623,8 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                       <div className="flex flex-col sm:flex-row gap-3">
                         <a href="tel:+917021014315">
                             <Button variant="secondary" className="flex items-center gap-2">
-                                <Phone className="h-4 w-4" />
-                                Call Us
+                              <Phone className="h-4 w-4" />
+                              Call Us
                             </Button>
                         </a>
 
@@ -584,9 +655,9 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
                 <Button
                   size="lg"
                   className="bg-white text-miv-navy hover:bg-white/90 px-8 py-6 text-lg group"
-                  onClick={() => navigateToPage(`payment/${currentEvent.id}`)}
+                  onClick={() => navigateToPage(`payment/${eventId}`)} 
                 >
-                  Book Now - {currentEvent.price}
+                  Book Now - ₹{currentEvent.price}
                   <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button
@@ -602,17 +673,61 @@ export function ProductPage({ navigateToPage, darkMode, toggleDarkMode }) {
           </div>
         </section>
 
-        {/* Similar Adventures (Kept as static content since related events would require a separate fetch) */}
-        <section className="py-12">
+        {/* Similar Adventures */}
+        {/* <section className="py-12">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold mb-8">You Might Also Like</h2>
-            {/* ... Static Similar Adventures Card Grid ... */}
-            {/* This section would ideally fetch related events based on currentEvent.category or location */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {similarAdventuresMock.map((event) => {
+                const AdventureIcon = event.icon === 'Mountain' ? Mountain : TrendingUp; 
+                const eventImageSource = getImageSource(event.image);
+
+                return (
+                  <Card 
+                    key={event.id} 
+                    className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+                    onClick={() => navigateToPage(`product/${event.id}`)}
+                  >
+                    <div className="relative h-48">
+                        <ImageWithFallback 
+                            src={eventImageSource} 
+                            alt={event.title} 
+                            className="w-full h-full object-cover" 
+                        />
+                        <Badge className={`absolute top-3 left-3 ${getDifficultyColor(event.difficulty)} border`}>
+                            {event.difficulty}
+                        </Badge>
+                    </div>
+                    <CardContent className="p-4 space-y-2">
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-bold text-xl">{event.title}</h3>
+                        <p className="text-xl font-bold text-miv-cyan">₹{event.price}</p>
+                      </div>
+                      <div className="flex items-center text-sm text-muted-foreground gap-3">
+                        <div className="flex items-center">
+                            <AdventureIcon className="h-4 w-4 mr-1 text-miv-cyan" />
+                            <span>{event.duration}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <MapPin className="h-4 w-4 mr-1" />
+                            <span>{event.location}</span>
+                        </div>
+                      </div>
+                      <Button variant="link" className="p-0 h-auto text-miv-cyan">
+                        View Details <ArrowRight className="h-4 w-4 ml-1" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
-        </section>
+        </section> */}
       </div>
       <Footer navigateToPage={navigateToPage} />
 
     </>
   );
 }
+
+// You can learn more about building image galleries in React [React Product Image And Thumbnail Slider](https://www.youtube.com/watch?v=eLaOmy55pS8).

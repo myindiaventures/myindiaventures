@@ -15,7 +15,7 @@ import { ImageWithFallback } from '../figma/ImageWIthFallback';
 import miv_logo from '../../../src/assets/logo/miv_brand_logo.webp';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
-import koraigad01 from '../../assets/locations/koraigad01.png';
+import koraigad01 from '../../assets/locations/koraigad01.jpg';
 
 // ----------------------------------------------------------------------
 // ⚠️ MOCK/HELPER FUNCTIONS (REPLACE WITH REAL ROUTER LOGIC)
@@ -104,7 +104,7 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
     const basePricePerPerson = booking.price;
     const processingRate = 0.02; // 2%
     const gstRate = 0.18; // 18%
-    const bookingFeeRate = 0.05; // 5% per person booking fee
+    const bookingFeeRate = 0.025; // 2.5% per person booking fee
     const bulkDiscountRate = 0.10; // 10% discount for 5 or more participants
 
     const numParticipants = Math.max(1, participants || 1);
@@ -257,38 +257,50 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
   // ----------------------------------------------------------------------
 
   if (paymentComplete) {
-    return (
-      <div className="min-h-screen pt-16 bg-muted/30 flex flex-col w-full items-center justify-center">
-        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl">
-          <Card className="text-center p-8">
-            <CardContent className="space-y-6">
-              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle className="h-10 w-10 text-white" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-foreground mb-2">Payment Successful!</h1>
-                <p className="text-muted-foreground">Your booking for **{booking?.title || 'the event'}** has been confirmed</p>
-              </div>
-              <div className="bg-muted/50 rounded-lg p-4">
-                <p className="text-sm text-muted-foreground mb-1">Booking ID</p>
-                <p className="font-mono text-lg font-semibold text-foreground">{bookingId}</p>
-              </div>
-              <div className="space-y-3">
-                <Button className="w-full bg-miv-cyan hover:bg-miv-sky-blue text-white" onClick={() => navigateToPage('user-dashboard')}>
-                  View My Bookings
-                </Button>
-                <Button variant="outline" className="w-full" onClick={() => navigateToPage('events')}>
-                  Book Another Adventure
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
+    return (
+      <div className="min-h-screen pt-16 bg-muted/30 flex flex-col w-full items-center justify-center">
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl">
+          <Card className="text-center p-8">
+            <CardContent className="space-y-6">
+              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto">
+                <CheckCircle className="h-10 w-10 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-foreground mb-2">Payment Successful!</h1>
+                <p className="text-muted-foreground">Your booking for **{booking?.title || 'the event'}** has been confirmed</p>
+              </div>
+              <div className="bg-muted/50 rounded-lg p-4">
+                <p className="text-sm text-muted-foreground mb-1">Booking ID</p>
+                <p className="font-mono text-lg font-semibold text-foreground">{bookingId}</p>
+              </div>
+              <div className="space-y-3">
+                {/* <Button className="w-full bg-miv-cyan hover:bg-miv-sky-blue text-white" onClick={() => navigateToPage('user-dashboard')}>
+                  View My Bookings
+                </Button> */}
+                <a 
+                    href={`https://wa.me/917021014315?text=${encodeURIComponent(
+                    // 🛑 CHANGE 1: Use 'booking' instead of the undefined 'currentEvent'
+                    `Hello, I have successfully booked the event: ${booking?.title} (ID: ${booking?._id}). My Booking ID is ${bookingId}. Please assist me with next steps.`
+                    // 🛑 CHANGE 2: Simplified and corrected the message content.
+                )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <Button className="w-full bg-green-500 hover:bg-green-600 text-white">
+                        Confirm on WhatsApp
+                    </Button>
+                </a>
+                <Button variant="outline" className="w-full" onClick={() => navigateToPage('events')}>
+                  Book Another Adventure
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
   if (loading) {
     return (
       <div className="min-h-screen pt-16 bg-muted/30 flex items-center justify-center">
@@ -395,12 +407,12 @@ export function PaymentPage({ navigateToPage, darkMode, toggleDarkMode }) {
                   <Input
                     id="participants"
                     type="number"
-                    min="1"
+                    // min="1"
                     placeholder="Number of participants"
                     value={participants}
                     onChange={(e) => {
                       const value = parseInt(e.target.value);
-                      setParticipants(Math.max(1, isNaN(value) ? 1 : value));
+                      setParticipants(value);
                     }}
                   />
                   {participants >= 5 && (
