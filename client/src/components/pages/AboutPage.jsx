@@ -18,6 +18,7 @@ import cta_section_bg from '../../assets/bg/cta_section_bg.webp'
 import { Link } from 'react-router-dom';
 import miv_brand_logo from '../../assets/logo/miv_brand_logo.webp'
 import hero_bg from '../../assets/bg/hero_bg.webp'
+import venila_naik from '../../assets/team/venila_naik.jpg'
 
 export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const values = [
@@ -45,30 +46,30 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
 
   const team = [
     {
-      name: "Rajesh Kumar",
-      role: "Founder & Lead Guide",
-      experience: "15+ years",
-      speciality: "High Altitude Trekking",
+      name: "Jigar Veera",
+      role: "Founder & Technical Lead",
+      experience: "1+ years",
+      speciality: "Developer, Trekking & Event Management",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1080"
     },
     {
-      name: "Priya Sharma",
-      role: "Adventure Specialist",
-      experience: "12+ years",
-      speciality: "Solo Travel & Women's Groups",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1080"
+      name: "Venila Naik",
+      role: "Social Media & Marketing Head",
+      experience: "1+ years",
+      speciality: "Co-ordination, Marketing & Customer Relations",
+      image: venila_naik
     },
     {
-      name: "Arjun Singh",
-      role: "Photography Guide",
-      experience: "10+ years",
-      speciality: "Adventure Photography",
+      name: "Shashank Dhawade",
+      role: "Founder & Guide",
+      experience: "1+ years",
+      speciality: "Trekking, Climbing & Expedition Lead",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=1080"
     },
     {
-      name: "Anita Verma",
-      role: "Safety Coordinator",
-      experience: "8+ years",
+      name: "Khushi Singh",
+      role: "Safety Coordinator & Guide",
+      experience: "1+ years",
       speciality: "Medical Support & Training",
       image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1080"
     }
@@ -222,11 +223,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
                   <h3 className="font-semibold text-foreground mb-1">{member.name}</h3>
                   <p className="text-miv-cyan text-sm font-medium mb-2">{member.role}</p>
                   <p className="text-muted-foreground text-sm">{member.speciality}</p>
-                  <div className="flex justify-center mt-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
+                  
                 </CardContent>
               </Card>
             ))}
