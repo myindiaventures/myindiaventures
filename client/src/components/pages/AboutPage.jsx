@@ -20,7 +20,7 @@ import miv_brand_logo from '../../assets/logo/miv_brand_logo.webp'
 import hero_bg from '../../assets/bg/hero_bg.webp'
 import venila_naik from '../../assets/team/venila_naik.jpg'
 import Khusi_singh from '../../assets/team/khushi_singh.jpg'
-import Jigar_veera from '../../assets/team/jigar_veera.jpg'
+import Jigar_veera from '../../assets/team/Jigar_veera.jpg'
 
 export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const values = [
