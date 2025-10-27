@@ -82,15 +82,15 @@ export function HeroSection({ navigateToPage }) {
             style={{ animationDelay: '0.8s' }}
           >
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-miv-cyan mb-2">500+</div>
+              <div className="text-3xl md:text-4xl font-bold text-miv-cyan mb-2">50+</div>
               <div className="text-gray-300 text-sm uppercase tracking-wide">Adventures</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-miv-cyan mb-2">15K+</div>
+              <div className="text-3xl md:text-4xl font-bold text-miv-cyan mb-2">1,500+</div>
               <div className="text-gray-300 text-sm uppercase tracking-wide">Happy Trekkers</div>
             </div>
             <div className="text-center col-span-2 md:col-span-1">
-              <div className="text-3xl md:text-4xl font-bold text-miv-cyan mb-2">50+</div>
+              <div className="text-3xl md:text-4xl font-bold text-miv-cyan mb-2">10+</div>
               <div className="text-gray-300 text-sm uppercase tracking-wide">Expert Guides</div>
             </div>
           </div>

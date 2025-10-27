@@ -78,9 +78,9 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
   ];
 
   const stats = [
-    { number: "15,000+", label: "Happy Adventurers" },
-    { number: "500+", label: "Adventures Completed" },
-    { number: "50+", label: "Expert Guides" },
+    { number: "1,500+", label: "Happy Adventurers" },
+    { number: "50+", label: "Adventures Completed" },
+    { number: "10+", label: "Expert Guides" },
     { number: "4.9", label: "Average Rating" }
   ];
 
@@ -103,7 +103,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
               <span className="block text-miv-cyan">MY INDIA VENTURES</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
-              Pioneering adventure experiences across India since 2010, connecting souls with the wilderness.
+              Pioneering adventure experiences across India since 2025, connecting souls with the wilderness.
             </p>
           </div>
         </div>
