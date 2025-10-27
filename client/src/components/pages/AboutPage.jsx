@@ -19,6 +19,8 @@ import { Link } from 'react-router-dom';
 import miv_brand_logo from '../../assets/logo/miv_brand_logo.webp'
 import hero_bg from '../../assets/bg/hero_bg.webp'
 import venila_naik from '../../assets/team/venila_naik.jpg'
+import Khusi_singh from '../../assets/team/khushi_singh.jpg'
+import Jigar_veera from '../../assets/team/jigar_veera.jpg'
 
 export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
   const values = [
@@ -50,7 +52,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
       role: "Founder & Technical Lead",
       experience: "1+ years",
       speciality: "Developer, Trekking & Event Management",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1080"
+      image: Jigar_veera
     },
     {
       name: "Venila Naik",
@@ -71,7 +73,7 @@ export function AboutPage({ navigateToPage, darkMode, toggleDarkMode }) {
       role: "Safety Coordinator & Guide",
       experience: "1+ years",
       speciality: "Medical Support & Training",
-      image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1080"
+      image: Khusi_singh
     }
   ];
 
