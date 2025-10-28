@@ -40,6 +40,7 @@ import koraigad02 from '../../assets/locations/koraigad02.jpg';
 import koraigad03 from '../../assets/locations/koraigad03.jpg';
 import koraigad04 from '../../assets/locations/koraigad04.jpg';
 import koraigad05 from '../../assets/locations/koraigad05.png';
+import Lohagad01 from '../../assets/locations/Lohagad01.jpg';
 
 // --- Configuration and Mock Data ---
 

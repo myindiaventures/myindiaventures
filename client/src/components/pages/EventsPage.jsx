@@ -10,6 +10,8 @@ import { Footer } from '../layout/Footer';
 import { EventCard } from '../ui/EventCard';
 // IMPORTANT: Import the static image. This import resolves to the final public URL string.
 import koraigad01 from '../../assets/locations/koraigad01.jpg';
+import Lohagad01 from '../../assets/locations/Lohagad01.jpg';
+import Kalsubai01 from '../../assets/locations/Kalsubai01.jpeg';
 
 
 // API Configuration
@@ -68,7 +70,7 @@ export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
                     // Map icon string to Lucide component
                     icon: getIconComponent(event.category),
                     // Use the imported image variable (koraigad01) as the 'image' property
-                    image: event.image === 'koraigad01' ? koraigad01 : (index === 0 ? koraigad01 : null),
+                    image: event.image === 'koraigad01' ? koraigad01 : event.image === 'Lohagad01' ? Lohagad01 : event.image === 'Kalsubai01' ? Kalsubai01 : null,
                     // Ensure a rating is available for the card
                     rating: event.rating || 4.5,
                     reviews: event.reviews || 0,
