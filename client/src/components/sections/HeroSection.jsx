@@ -69,11 +69,14 @@ export function HeroSection({ navigateToPage }) {
               variant="outline"
               size="lg"
               className="border-white text-white hover:bg-white hover:text-miv-navy px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300"
-              onClick={() => navigateToPage('gallery')}
+              onClick={() =>
+                window.open("https://www.instagram.com/myindiaventures/reels/", "_blank")
+              }
             >
               <Play className="h-5 w-5 mr-2" />
               Watch Stories
             </Button>
+
           </div>
 
           {/* Stats */}

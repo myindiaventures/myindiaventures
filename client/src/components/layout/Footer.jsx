@@ -155,25 +155,25 @@ export function Footer({ navigateToPage }) {
           {/* Social Links */}
           <div className="flex items-center space-x-4">
             <a
-              href="#"
+              href="https://www.facebook.com/myindiaventures/"
               className="text-muted-foreground hover:text-miv-cyan transition-colors duration-200"
             >
               <Facebook className="h-5 w-5" />
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/myindiaventures/"
               className="text-muted-foreground hover:text-miv-cyan transition-colors duration-200"
             >
               <Instagram className="h-5 w-5" />
             </a>
             <a
-              href="#"
+              href="https://twitter.com/myindiaventures"
               className="text-muted-foreground hover:text-miv-cyan transition-colors duration-200"
             >
               <Twitter className="h-5 w-5" />
             </a>
             <a
-              href="#"
+              href="https://www.youtube.com/myindiaventures555"
               className="text-muted-foreground hover:text-miv-cyan transition-colors duration-200"
             >
               <Youtube className="h-5 w-5" />
