@@ -1,5 +1,6 @@
 // controllers/bookingController.js
 import Booking from "../models/bookingSchems.js";
+import { sendEmail } from "../services/mailer.js";
 
 /**
  * @desc Get all bookings
@@ -51,7 +52,36 @@ export const createBooking = async (req, res) => {
       paymentDetails: req.body.paymentDetails,
     });
 
-    await booking.save();
+    const emailHtml = `
+      <div style="font-family: Arial, sans-serif; color: #333;">
+        <h2 style="color:#007bff;">Booking Confirmed 🎉</h2>
+        <p>Dear <b>${booking.name}</b>,</p>
+        <p>Your booking for <b>${booking.eventName}</b> has been confirmed.</p>
+        <p><b>Booking ID:</b> ${booking.bookingId}</p>
+        <p><b>Participants:</b> ${booking.participants}</p>
+        <p><b>Amount Paid:</b> ₹${booking.paymentDetails.amount.toLocaleString()}</p>
+        <br/>
+        <p>We look forward to having you join us!</p>
+        <p>Warm regards,</p>
+        <p><b>My India Ventures Team</b></p>
+        <hr style="margin-top:20px;"/>
+        <small>This is an automated confirmation. Please do not reply to this email.</small>
+        <small>If you have any questions, feel free to contact our support team.</small>
+        <small>email: support@myindiaventures.com</small>
+        <small>phone: +91-7021014315</small>
+      </div>
+    `;
+
+    await sendEmail(
+      booking.email,
+      `Your Booking Confirmation - ${booking.eventName}`,
+      emailHtml
+    );
+
+    await booking.save()
+    .then(() => {
+
+    })
 
     res.status(201).json({
       success: true,

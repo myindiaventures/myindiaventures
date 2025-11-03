@@ -12,6 +12,7 @@ import { EventCard } from '../ui/EventCard';
 import koraigad01 from '../../assets/locations/koraigad01.jpg';
 import Lohagad01 from '../../assets/locations/Lohagad01.jpg';
 import Kalsubai01 from '../../assets/locations/Kalsubai01.jpeg';
+import devkund01 from '../../assets/locations/devkund01.png';
 
 
 // API Configuration
@@ -70,7 +71,7 @@ export function EventsPage({ navigateToPage, darkMode, toggleDarkMode }) {
                     // Map icon string to Lucide component
                     icon: getIconComponent(event.category),
                     // Use the imported image variable (koraigad01) as the 'image' property
-                    image: event.image === 'koraigad01' ? koraigad01 : event.image === 'Lohagad01' ? Lohagad01 : event.image === 'Kalsubai01' ? Kalsubai01 : null,
+                    image: event.image === 'koraigad01' ? koraigad01 : event.image === 'Lohagad01' ? Lohagad01 : event.image === 'Kalsubai01' ? Kalsubai01 : event.image === 'devkund01' ? devkund01 : null,
                     // Ensure a rating is available for the card
                     rating: event.rating || 4.5,
                     reviews: event.reviews || 0,

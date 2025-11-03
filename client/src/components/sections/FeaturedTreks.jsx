@@ -15,6 +15,7 @@ const IMAGE_BASE_PATH = '../../assets/locations/';
 import koraigad01 from '../../assets/locations/koraigad01.jpg';
 import Lohagad01 from '../../assets/locations/Lohagad01.jpg';
 import Kalsubai01 from '../../assets/locations/Kalsubai01.jpeg';
+import devkund01 from '../../assets/locations/devkund01.png';
 
 
 export function FeaturedTreks({ navigateToPage }) {
@@ -55,7 +56,7 @@ export function FeaturedTreks({ navigateToPage }) {
                     featured: index === 0, 
                     // Map icon string to Lucide component if necessary (e.g., if 'Mountain' is a string)
                     icon: event.icon === 'Mountain' ? Mountain : TrendingUp, 
-                    image: event.image === 'koraigad01' ? koraigad01 : event.image === 'Lohagad01' ? Lohagad01 : event.image === 'Kalsubai01' ? Kalsubai01 : null
+                    image: event.image === 'koraigad01' ? koraigad01 : event.image === 'Lohagad01' ? Lohagad01 : event.image === 'Kalsubai01' ? Kalsubai01 : event.image === 'devkund01' ? devkund01 : null
                 }));
 
                 setTreks(transformedEvents);
