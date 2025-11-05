@@ -1,0 +1,21 @@
+# My India Ventures - robots.txt
+# Allow full access to search engines
+User-agent: *
+Allow: /
+
+# Block development or private directories (uncomment if applicable)
+# Disallow: /admin/
+# Disallow: /api/
+# Disallow: /temp/
+# Disallow: /drafts/
+
+# Prevent crawling of unnecessary file types
+Disallow: /*.json$
+Disallow: /*.txt$
+Disallow: /*.xml$  # except sitemap, explicitly allowed below
+
+# Sitemap location
+Sitemap: https://myindiaventures.com/sitemap.xml
+
+# Host (helps for canonicalization)
+Host: myindiaventures.com

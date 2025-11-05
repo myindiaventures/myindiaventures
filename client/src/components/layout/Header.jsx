@@ -22,8 +22,8 @@ export function Header({ darkMode, toggleDarkMode, currentPage }) {
     { name: 'Home', page: '' },
     { name: 'Events', page: 'events' },
     { name: 'Blog', page: 'blog' },
-    { name: 'About', page: 'about' },
-    { name: 'Contact', page: 'contact' },
+    { name: 'About', page: 'about-us' },
+    { name: 'Contact', page: 'contact-us' },
   ];
 
   const allPages = [

@@ -1,52 +1,122 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./src/assets/logo/miv_brand_logo.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My India Ventures — Adventure Treks, Camping & Adventure Tours in India</title>
+
+    <!-- Primary meta -->
+    <meta name="description" content="My India Ventures — Trusted adventure & trekking company from Mumbai. Book guided treks, camping trips, spiritual tours, corporate outings and college IVs. Safe, affordable, experienced guides." />
+    <meta name="keywords" content="best travel company in India, trekking company India, camping trips near Mumbai, adventure tours India, My India Ventures" />
+    <meta name="author" content="My India Ventures" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    <!-- Canonical + sitemap -->
+    <link rel="canonical" href="https://myindiaventures.com/" />
+    <link rel="alternate" href="https://myindiaventures.com/" hreflang="en-IN" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+    <!-- Icons / fonts -->
+    <link rel="icon" href="/assets/logo/miv_brand_logo.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
 
-    <!-- technical seo -->
-    <title>My India Ventures | Adventure Treks, Trek Itineraries, Blogs & Events</title>
+    <!-- Performance: preload key LCP image + critical CSS if any -->
+    <!-- Replace with your actual hero / LCP image -->
+    <link rel="preload" as="image" href="/assets/hero/miv-hero-lcp.webp">
+    <link rel="preload" as="script" href="https://www.googletagmanager.com/gtm.js?id=GTM-P2XX3VFX">
+
+    <!-- Social: Open Graph -->
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:site_name" content="My India Ventures" />
+    <meta property="og:title" content="My India Ventures — Treks, Camping & Adventure Tours" />
+    <meta property="og:description" content="Guided treks, budget camping, adventure tours and spiritual trips from Mumbai — safe, experienced, and memorable." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://myindiaventures.com/" />
+    <meta property="og:image" content="https://myindiaventures.com/assets/og/miv-og-image.webp" />
+    <meta property="og:image:alt" content="My India Ventures - adventure treks and camping" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MyIndiaVentures" />
+    <meta name="twitter:title" content="My India Ventures — Treks & Adventure Tours" />
+    <meta name="twitter:description" content="Guided treks, budget camping, adventure tours and spiritual trips from Mumbai." />
+    <meta name="twitter:image" content="https://myindiaventures.com/assets/og/miv-og-image.webp" />
+
+    <!-- Verification -->
     <meta name="google-site-verification" content="dOtkEGAEr_PYoK7qwKgonnPsWSw0mE47bLE7rUkiW7c" />
-    <meta name="description" content="Discover adventure treks, events, and blogs with My India Ventures. Explore nature, trails, and unforgettable experiences.">
-    <meta name="keywords" content="events, blogs, adventure, exploration, nature, trekking, trails, outdoors, challenges, mountains, beaches, expreiences, memories, wilderness, discovery">
-    <!-- Open Graph Social Sharings -->
-    <meta property="og:title" content="My India Ventures">
-    <meta property="og:description" content="Connect with us for events, blogs, and business growth.">
-    <meta property="og:image" content="https://myindiaventures.com/assets/logo/miv_brand_logo.webp">
-    <meta property="og:url" content="https://myindiaventures.com">
-    <meta property="og:type" content="website">
 
-    <!-- Twitter card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="My India Ventures">
-    <meta name="twitter:description" content="Discover adventure treks, events, and blogs with My India Ventures.">
-    <meta name="twitter:image" content="https://myindiaventures.com/assets/logo/miv_brand_logo.webp">
+    <!-- Structured data (JSON-LD): TravelAgency + LocalBusiness + example BreadcrumbList and FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "TravelAgency",
+          "@id": "https://myindiaventures.com/#travelagency",
+          "name": "My India Ventures",
+          "url": "https://myindiaventures.com/",
+          "logo": "https://myindiaventures.com/assets/logo/miv_brand_logo.webp",
+          "description": "Guided treks, budget camping, adventure tours, spiritual trips and corporate/college industrial visits from Mumbai.",
+          "telephone": "+91-7021014315",
+          "email": "info@myindiaventures.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Mumbai, Maharashtra",
+            "addressLocality": "Mumbai",
+            "addressRegion": "MH",
+            "postalCode": "400077",
+            "addressCountry": "IN"
+          },
+          "sameAs": [
+            "https://www.facebook.com/share/1JgP3FavL8",
+            "https://www.instagram.com/MYINDIAVENTURES",
+            "https://www.youtube.com/@MYINDIAVENTURES"
+          ],
+          "priceRange": "₹₹"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myindiaventures.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Treks", "item": "https://myindiaventures.com/" }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Are the treks beginner-friendly?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — we list difficulty, distance and required fitness for each trek and provide experienced guides and safety gear."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 
-    <link rel="modulepreload" href="/src/main.jsx">
+    <!-- Canonical + robots via robots.txt suggested (see plan) -->
 
-    <!-- Google tag (gtag.js) -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XD2J1CTW2B"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-XD2J1CTW2B');
-    </script> -->
-
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager (keeps earlier GTM) -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-P2XX3VFX');</script>
-    <!-- End Google Tag Manager -->
+
+    <!-- CSS/JS entrypoints -->
+    <link rel="modulepreload" href="/src/main.jsx">
+    <link rel="stylesheet" href="/assets/css/main.css">
   </head>
+
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2XX3VFX"
