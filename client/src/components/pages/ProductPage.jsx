@@ -43,6 +43,7 @@ import koraigad05 from '../../assets/locations/koraigad05.png';
 import Lohagad01 from '../../assets/locations/Lohagad01.jpg';
 import Kalsubai01 from '../../assets/locations/Kalsubai01.jpeg';
 import devkund01 from '../../assets/locations/devkund01.png';
+import raigad01 from '../../assets/locations/raigad01.png';
 
 // --- Configuration and Mock Data ---
 
@@ -67,6 +68,7 @@ function getImageSource(sourceString) {
         case 'Lohagad01': return Lohagad01;
         case 'Kalsubai01': return Kalsubai01;
         case 'devkund01': return devkund01;
+        case 'raigad01' : return raigad01;
         // If it was imported directly (e.g., from localMockGallery array) it is already the correct source,
         // so we return it directly. This handles the case where sourceString is an actual imported module path.
         default: 
